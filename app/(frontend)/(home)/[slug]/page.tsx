@@ -20,8 +20,8 @@ export async function generateMetadata(
   };
 }
 
-const page = ({ params }: any) => {
-  const slug = params.slug;
+const page = async ({ params }: any) => {
+  const slug = (await params).slug;
 
   return (
     <div className=" min-h-[50vh] lg:min-h-screen">

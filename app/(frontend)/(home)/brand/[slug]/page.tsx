@@ -24,8 +24,8 @@ export async function generateMetadata(
   };
 }
 const page = async ({ params, searchParams }: any) => {
-  const brand = params?.slug;
-  const LIMIT = Number(searchParams.limit) || 20;
+  const brand = (await params)?.slug;
+  const LIMIT = Number((await searchParams).limit) || 20;
   const cars = await getCars(brand, LIMIT);
   return (
     <div className="min-h-[60vh]">

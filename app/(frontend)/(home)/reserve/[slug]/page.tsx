@@ -20,7 +20,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
 }
 
 const page = async ({ params }: any) => {
-  const car = await getCarByID(params.slug);
+  const car = await getCarByID((await params).slug);
   return (
     <div className="min-h-screen py-12">
       <div>

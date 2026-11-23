@@ -21,6 +21,7 @@ export async function generateMetadata(
 }
 
 const page = async ({ params }: any) => {
+  const slug = (await params).slug;
   return (
     <div className="min-h-screen py-8">
       <div className="flex justify-center items-center flex-col mb-6 gap-3">
@@ -30,15 +31,15 @@ const page = async ({ params }: any) => {
           </Link>
           <span className="text-[#6c757d]">/</span>
           <Link href="#" className="text-[#6c757d]">
-            {params.slug} For Sale in Kenya
+            {slug} For Sale in Kenya
           </Link>
         </div>
         <h2 className="uppercase font-semibold text-[35.2px]">
-          {params.slug} For Sale in Kenya
+          {slug} For Sale in Kenya
         </h2>
       </div>
       {/* // render cars */}
-      <RenderCars brand={params.slug} />
+      <RenderCars brand={slug} />
     </div>
   );
 };
