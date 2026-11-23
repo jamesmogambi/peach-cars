@@ -8,7 +8,7 @@ export async function getContact() {
       collection: "contact", // Collection name
     });
 
-    return res.docs[0]; // Return the first document if found, otherwise null
+    return res.docs[0] ?? {}; // Return the first document if found, otherwise an empty object
   } catch (error) {
     console.error("Error fetchicng Contact  details:", error);
     return null;

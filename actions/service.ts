@@ -8,7 +8,7 @@ export async function getServiceCenter() {
       collection: "services", // Collection name
     });
 
-    return res.docs[0]; // Return the first document if found, otherwise null
+    return res.docs[0] ?? {}; // Return the first document if found, otherwise an empty object
   } catch (error) {
     console.error("Error fetchicng services:", error);
     return null;

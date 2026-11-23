@@ -1,9 +1,7 @@
 "use server";
 
-import payloadConfig from "@/payload.config";
-import { getPayload } from "payload";
+import { payload } from "@/lib/payload";
 
-const payload = await getPayload({ config: payloadConfig });
 const getBrands = async () => {
   try {
     const brands = await payload.find({

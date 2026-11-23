@@ -10,11 +10,11 @@ export const metadata = {
 const page = async () => {
   const res: any = await getServiceCenter();
 
-  const { ["why-choose-us"]: values } = res;
+  const { ["why-choose-us"]: values = [] } = res;
   console.log("service center", res);
   return (
     <div className="min-h-screen m">
-      <BannerImage path={res?.coverImage.url} />
+      <BannerImage path={res?.coverImage?.url} />
 
       <div className="max-w-6xl px-4 lg:px-0 mx-auto">
         <About about={res.about} />

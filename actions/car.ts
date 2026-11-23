@@ -94,8 +94,8 @@ export const getFeaturedModels = async () => {
     });
 
     // Merge all models into a single array, taking only two from each brand
-    const allModels = brands.docs.flatMap((brand) =>
-      brand?.models?.slice(0, 2).map((model) => ({
+    const allModels = brands.docs.flatMap((brand: any) =>
+      brand?.models?.slice(0, 2).map((model: any) => ({
         name: model.name,
         brand: brand.brand, // Include brand name for reference
       }))

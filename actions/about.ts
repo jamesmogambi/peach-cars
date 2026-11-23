@@ -10,7 +10,7 @@ export async function getAboutUs() {
     });
 
     console.log("res", res);
-    return res.docs[0]; // Return the first document if found, otherwise null
+    return res.docs[0] ?? {}; // Return the first document if found, otherwise an empty object
   } catch (error) {
     console.error("Error fetching About Us data:", error);
     return null;

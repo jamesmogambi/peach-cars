@@ -1,5 +1,6 @@
 import { getCarByID, getSimilarCars } from "@/actions/car";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import React from "react";
 import CarDetails from "./CarDetails";
 import CarItem from "../../brand/CarItem";
@@ -33,6 +34,9 @@ export async function generateMetadata(
   const carID = (await params).carID;
 
   const car = await getCarByID(carID);
+  if (!car) {
+    return { title: "Car not found" };
+  }
   return {
     title: `${car.carName} for sale in Eldoret | ${car.fuel} | ${car.productid}`,
     // description:'',
@@ -41,6 +45,7 @@ export async function generateMetadata(
 const page = async ({ params, searchParams }: Props) => {
   const { carID } = await params;
   const car = await getCarByID(carID);
+  if (!car) notFound();
 
   const { brand, price, engine } = car;
   const similarCars = await getSimilarCars({ brand: brand, engine });

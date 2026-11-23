@@ -17,10 +17,10 @@ const page = async () => {
 
   const {
     ["about-us"]: aboutUs,
-    ["core-values"]: coreValues,
+    ["core-values"]: coreValues = [],
     ["our-mission"]: mission,
-    ["our-services"]: services,
-    ["tailored-services"]: tailoredServices,
+    ["our-services"]: services = [],
+    ["tailored-services"]: tailoredServices = [],
     vision,
   } = res;
 

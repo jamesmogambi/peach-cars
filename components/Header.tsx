@@ -169,7 +169,7 @@ const MobiveNav = () => {
         height={200}
         width={150}
         // fill
-        src={"/images/logos/saisa-logo-dark.svg"}
+        src={"/images/logos/saisa-logo-light.svg"}
         className=" ml-6"
       />
 
@@ -366,14 +366,14 @@ const Header = () => {
               priority
               quality={98}
               fill
-              src={"/images/logos/saisa-logo-dark.svg"}
+              src={"/images/logos/saisa-logo-light.svg"}
               className="object-center"
             />
           </div>
           {/* <div>
             <Image
               alt="logo"
-              src={"/images/logos/saisa-logo-dark.svg"}
+              src={"/images/logos/saisa-logo-light.svg"}
               priority
               quality={99}
               width={227}
