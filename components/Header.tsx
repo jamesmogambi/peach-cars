@@ -7,14 +7,14 @@ import {
   Menu,
   Phone,
   Search,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -23,11 +23,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import {
   HoverCard,
   HoverCardContent,
@@ -37,251 +35,236 @@ import ButtonLink from "./ButtonLink";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getUser, logoutUser } from "@/actions/auth";
-import { usePathname, useSearchParams } from "next/navigation";
-// import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export const carItems = [
-  {
-    name: "all stock",
-    href: "all-stock",
-  },
-  {
-    name: "in stock",
-    href: "in-stock",
-  },
-  {
-    name: "shipping",
-    href: "shipping",
-  },
-  {
-    name: "new arrivals",
-    href: "new-arrivals",
-  },
+  { name: "all stock", href: "all-stock" },
+  { name: "in stock", href: "in-stock" },
+  { name: "shipping", href: "shipping" },
+  { name: "new arrivals", href: "new-arrivals" },
 ];
 
-const MobiveNav = () => {
-  const [showSearch, setShowSearch] = useState<boolean>(false);
+const SearchBox = ({
+  show,
+  onOpen,
+  onClose,
+}: {
+  show: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) => {
+  if (show) {
+    return (
+      <div className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white">
+        <input
+          autoFocus
+          placeholder="Search..."
+          className="w-36 text-neutral-800 border-0 outline-none text-sm px-3 py-2"
+          onKeyDown={(e) => {
+            if (e.key === "Escape") onClose();
+          }}
+        />
+        <button
+          onClick={onClose}
+          className="pr-2 text-neutral-400 hover:text-neutral-600"
+          aria-label="Close search"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+    );
+  }
+  return (
+    <button
+      onClick={onOpen}
+      className="flex items-center gap-1 text-neutral-500 hover:text-primary transition-colors"
+      aria-label="Open search"
+    >
+      <span className="uppercase text-sm font-light">search</span>
+      <Search className="h-4 w-4" />
+    </button>
+  );
+};
 
-  const [user, setUser] = useState<any>(null);
-
-  const [open, setOpen] = useState(false); // State to track Sheet open/close
-
+const MobileNav = () => {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const url = `${pathname}?${searchParams}`;
-    console.log(url);
-    // You can now use the current URL
-    // ...
-
     setOpen(false);
   }, [pathname, searchParams]);
 
-  useEffect(() => {
-    getUser().then(setUser);
-  }, []);
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about-us" },
+    { label: "Contact Us", href: "/contact-us" },
+    { label: "Blog", href: "/blog" },
+    { label: "Service Centers", href: "/service-centers" },
+    { label: "Trade In", href: "/trade-in" },
+    { label: "Financing", href: "/financing" },
+    { label: "Wishlist", href: "/wishlist" },
+  ];
+
   return (
-    <div className="flex lg:hidden items-center w-full p-4 px-0 justify-between">
+    <div className="flex lg:hidden items-center w-full justify-between">
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger className=" border-primary">
-          <Menu className="text-primary " />
+        <SheetTrigger className="text-primary">
+          <Menu className="h-6 w-6" />
         </SheetTrigger>
-        <SheetContent
-          title="navigation"
-          className=" w-[300px] border-none  px-0 bg-stone-500 uppercase text-white"
-        >
-          <ScrollArea className="h-full">
-            <ul className="w-full ">
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/" className=" ">
-                  Home
-                </Link>
-              </li>
-
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
+        <SheetContent side="left" className="w-[300px] border-none px-0">
+          <SheetHeader className="px-6 py-5 border-b">
+            <SheetTitle className="text-left uppercase text-lg font-bold text-[#111]">
+              Menu
+            </SheetTitle>
+          </SheetHeader>
+          <ScrollArea className="h-[calc(100vh-80px)]">
+            <ul className="py-2">
+              {navLinks.map((link) => (
+                <li key={link.href} className="border-b-[0.5px] border-neutral-100">
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "block px-6 py-3.5 uppercase text-[14px] transition-colors",
+                      pathname === link.href
+                        ? "text-primary font-semibold"
+                        : "text-neutral-700 hover:text-primary"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li className="border-b-[0.5px] border-neutral-100">
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <span className="flex uppercase items-center">
-                      Cars <ChevronDown />
-                    </span>
+                  <DropdownMenuTrigger className="flex w-full items-center justify-between px-6 py-3.5 uppercase text-[14px] text-neutral-700 hover:text-primary">
+                    Cars <ChevronDown className="h-4 w-4" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent title="navigation" className="uppercase">
-                    <DropdownMenuLabel className="uppercase">
-                      Navigation
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-
-                    {carItems.map((i, k) => (
-                      <DropdownMenuItem key={k}>
-                        <Link href={i.href}>{i.name}</Link>
-                        {i.name}
+                  <DropdownMenuContent align="start" className="w-[250px]">
+                    {carItems.map((item) => (
+                      <DropdownMenuItem key={item.name} asChild>
+                        <Link href={item.href} className="uppercase cursor-pointer">
+                          {item.name}
+                        </Link>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </li>
-
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/about-us" className=" ">
-                  About Us
-                </Link>
-              </li>
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/contact-us" className=" ">
-                  contact Us
-                </Link>
-              </li>
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/blog" className=" ">
-                  blog
-                </Link>
-              </li>
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/service-center" className=" ">
-                  service center
-                </Link>
-              </li>
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/trade-in" className=" ">
-                  trade in
-                </Link>
-              </li>
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/financing" className=" ">
-                  financing
-                </Link>
-              </li>
-              <li className=" border-slate-100 border-b-[0.3px] p-4">
-                <Link href="/wishlist" className=" ">
-                  wishlist
-                </Link>
               </li>
             </ul>
           </ScrollArea>
         </SheetContent>
       </Sheet>
 
-      <Image
-        alt="logo"
-        priority
-        quality={99}
-        height={200}
-        width={150}
-        // fill
-        src={"/images/logos/saisa-logo-light.svg"}
-        className=" ml-6"
-      />
+      <Link href="/" className="flex-shrink-0">
+        <Image
+          alt="Saisa Motors"
+          priority
+          quality={99}
+          height={40}
+          width={160}
+          src="/images/logos/saisa-logo-light.svg"
+          className="h-auto w-auto"
+        />
+      </Link>
 
-      <div className="flex gap-1   border-green-600 items-center">
-        {/* // search */}
-
-        {showSearch ? (
-          <div className="border-slate-300  items-center overflow-hidden flex flex-1 rounded-md  border">
-            <input
-              placeholder="SEARCH "
-              className="flex-1 text-neutral-800 border-0 border-transparent outline-none focus:border-transparent focus:ring-0 border-none  text-sm p-2"
-              onBlur={() => setShowSearch(false)}
-            />
-
-            <Search className="text-primary" />
-          </div>
-        ) : (
-          <div className=" flex flex-1 ">
-            <div
-              onClick={() => setShowSearch(true)}
-              className="flex-1 flex items-center cursor-pointer "
-            >
-              <span className="uppercase flex-1 text-neutral-500 text-sm font-light">
-                search
-              </span>
-              <Search className="text-primary" />
-            </div>
-          </div>
-        )}
-      </div>
+      <Link
+        href="/cars-for-sale-in-kenya"
+        className="text-primary"
+        aria-label="Search cars"
+      >
+        <Search className="h-5 w-5" />
+      </Link>
     </div>
   );
 };
-const Header = () => {
-  const [showSearch, setShowSearch] = useState<boolean>(false);
 
-  // get currently logged in user
+const Header = () => {
+  const [showSearch, setShowSearch] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     getUser().then(setUser);
   }, []);
 
-  // useEffect(() => {
-  //   const fetchMe = async () => {
-  //     const result = await getUser();
-  //     setUser(result || null);
-  //   };
-  //   fetchMe();
-  // }, []);
-
   const handleLogout = async () => {
     await logoutUser();
-    alert("You logged out successfully");
+    setUser(null);
   };
 
-  console.log("authenticated user", user);
+  const navItems = [
+    { label: "home", href: "/" },
+    { label: "about us", href: "/about-us" },
+    { label: "contact us", href: "/contact-us" },
+    { label: "blog", href: "/blog" },
+  ];
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
   return (
-    <div className="shadow-lg ">
-      <div className="pt-5 pb-3 px-4 md:px-0 w-full lg:max-w-6xl mx-auto ">
-        {/* layer 1 */}
-        <div className="flex justify-between  w-full ">
+    <div className="shadow-md bg-white">
+      <div className="pt-5 pb-3 px-4 md:px-0 w-full lg:max-w-6xl mx-auto">
+        {/* layer 1 — contact bar */}
+        <div className="flex justify-between w-full items-center">
           <div className="flex gap-7">
             <div className="flex items-center gap-2">
-              <Clock className="text-primary h-4 w-4" />
-              <p className="text-[13px]">Office Hours : 8 am - 5 pm Daily</p>
+              <Clock className="text-primary h-4 w-4 shrink-0" />
+              <p className="text-[13px] text-neutral-600">
+                Office Hours : 8 am - 5 pm Daily
+              </p>
             </div>
-
-            <div className="md:flex items-center gap-2 hidden ">
-              <Phone className="text-primary h-4 w-4" />
-              <Link href="" className="text-[13px]">
+            <div className="md:flex items-center gap-2 hidden">
+              <Phone className="text-primary h-4 w-4 shrink-0" />
+              <Link
+                href="tel:0746962447"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
+              >
                 0746962447
               </Link>
             </div>
           </div>
 
-          <div className="flex gap-4 text-[13px]">
-            <div className="md:flex hidden gap-4">
-              <div className="flex items-center gap-2">
-                <Mail className="text-primary h-4 w-4" />
-                <Link href="" className="text-[13px]">
-                  info@saisamotors.co.ke
-                </Link>
-              </div>
+          <div className="flex gap-4 text-[13px] items-center">
+            <div className="md:flex hidden gap-2 items-center">
+              <Mail className="text-primary h-4 w-4 shrink-0" />
+              <Link
+                href="mailto:info@saisamotors.co.ke"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
+              >
+                info@saisamotors.co.ke
+              </Link>
             </div>
 
-            <div className="items-center gap-2">
+            <div className="flex items-center gap-2">
               {user?.user ? (
-                <>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center cursor-pointer ">
-                      Welcome, {user?.user?.firstName} {user?.user?.lastName}{" "}
-                      <ChevronDown className="h-5 w-5" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="">
-                      <button
-                        onClick={handleLogout}
-                        className="text-blue-400 px-2 font-semibold "
-                      >
-                        Logout
-                      </button>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center gap-1 cursor-pointer text-[13px] text-neutral-600 hover:text-primary transition-colors">
+                    {user?.user?.firstName} {user?.user?.lastName}
+                    <ChevronDown className="h-4 w-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer text-primary font-semibold"
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <>
-                  <Link href="/login" className="lg:hidden">
+                  <Link
+                    href="/login"
+                    className="lg:hidden text-neutral-600 hover:text-primary transition-colors"
+                    aria-label="Login"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="size-6"
+                      className="h-5 w-5"
                     >
                       <path
                         fillRule="evenodd"
@@ -290,46 +273,69 @@ const Header = () => {
                       />
                     </svg>
                   </Link>
-
-                  <Link href={"/login"} className="hidden lg:block">
+                  <Link
+                    href="/login"
+                    className="hidden lg:block text-neutral-600 hover:text-primary transition-colors"
+                  >
                     Login/Register
                   </Link>
                 </>
               )}
             </div>
-            <div className="md:flex hidden  items-center gap-2">
-              <Heart className="text-primary h-4 w-4" />
-              <Link href="" className="text-[13px]">
+
+            <div className="md:flex hidden items-center gap-2">
+              <Heart className="text-primary h-4 w-4 shrink-0" />
+              <Link
+                href="/wishlist"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
+              >
                 Wishlist
               </Link>
             </div>
           </div>
         </div>
-        {/* layer 2 */}
 
-        <div className="hidden lg:flex  border-red-500 border-red  justify-between    ">
+        {/* layer 2 — main nav */}
+        <div className="hidden lg:flex justify-between items-center mt-4">
           {/* menu */}
-          <div className="flex -mx-[15px]   justify-end items-end border-blue-500 text-[#323232]  text-[14px] ">
-            <Link
-              href="/"
-              className="uppercase relative  py-[19px] px-[15px] group "
-            >
-              <span>home</span>
-              <span className="absolute right-0 left-0 top-12  h-[3px] bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
+          <nav className="flex items-center text-[14px] text-[#323232] flex-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "group relative uppercase py-[19px] px-[15px] transition-colors",
+                  isActive(item.href)
+                    ? "text-primary font-semibold"
+                    : "hover:text-primary"
+                )}
+              >
+                {item.label}
+                <span
+                  className={cn(
+                    "absolute right-[15px] left-[15px] bottom-2 h-[3px] bg-primary origin-left transition-transform duration-300",
+                    isActive(item.href)
+                      ? "scale-x-100"
+                      : "scale-x-0 group-hover:scale-x-100"
+                  )}
+                />
+              </Link>
+            ))}
             <HoverCard>
-              <HoverCardTrigger className="cursor-pointer" asChild>
-                <span className="uppercase flex items-center py-[19px] px-[15px] group ">
-                  Cars <ChevronDown />
+              <HoverCardTrigger asChild>
+                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors">
+                  Cars <ChevronDown className="h-4 w-4 ml-1" />
+                  <span className="absolute right-[15px] left-[15px] bottom-2 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
                 </span>
-
-                {/* <span className="absolute right-0 left-0 top-12  h-[3px] bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span> */}
               </HoverCardTrigger>
-              <HoverCardContent className="w-auto -mt-5">
-                <ul className="space-y-3">
+              <HoverCardContent className="w-48 p-2">
+                <ul className="space-y-1">
                   {carItems.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="uppercase ">
+                      <Link
+                        href={item.href}
+                        className="block px-3 py-2 uppercase text-[13px] rounded hover:bg-neutral-50 hover:text-primary transition-colors"
+                      >
                         {item.name}
                       </Link>
                     </li>
@@ -337,96 +343,48 @@ const Header = () => {
                 </ul>
               </HoverCardContent>
             </HoverCard>
-            <Link
-              href="/about-us"
-              className="uppercase relative py-[19px] px-[15px] group "
-            >
-              <span className="text-nowrap">about us</span>
-              <span className="absolute right-0 left-0 top-12  h-[3px] bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-            <Link
-              href="/contact-us"
-              className="uppercase relative py-[19px] px-[15px] group "
-            >
-              <span className="text-nowrap">contact us</span>
-              <span className="absolute right-0 left-0 top-12  h-[3px] bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-            <Link
-              href="/blog"
-              className="uppercase relative py-[19px] px-[15px] group "
-            >
-              <span>blog</span>
-              <span className="absolute right-0 left-0 top-12  h-[3px] bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-          </div>
+          </nav>
+
           {/* logo */}
-          <div className="w-[170px] ml-12 h-[80px] flex-none  relative">
+          <Link
+            href="/"
+            className="w-[180px] h-[64px] flex-none relative mx-6"
+          >
             <Image
-              alt="logo"
-              priority
-              quality={98}
-              fill
-              src={"/images/logos/saisa-logo-light.svg"}
-              className="object-center"
-            />
-          </div>
-          {/* <div>
-            <Image
-              alt="logo"
-              src={"/images/logos/saisa-logo-light.svg"}
+              alt="Saisa Motors"
               priority
               quality={99}
-              width={227}
-              height={86}
+              fill
+              src="/images/logos/saisa-logo-light.svg"
+              className="object-contain"
             />
-          </div> */}
+          </Link>
+
           {/* actions */}
-          <div className="flex  justify-end  items-end flex-1 ">
-            <div className="flex gap-1  border-green-600 items-center">
-              {/* // search */}
-
-              {showSearch ? (
-                <div className="border-slate-300  items-center overflow-hidden flex flex-1 rounded-md  border">
-                  <input
-                    placeholder="SEARCH "
-                    className="flex-1 text-neutral-800 border-0 border-transparent outline-none focus:border-transparent focus:ring-0 border-none  text-sm p-2"
-                    onBlur={() => setShowSearch(false)}
-                  />
-
-                  <Search className="text-primary" />
-                </div>
-              ) : (
-                <div className=" flex flex-1 ">
-                  <div
-                    onClick={() => setShowSearch(true)}
-                    className="flex-1 flex items-center cursor-pointer "
-                  >
-                    <span className="uppercase flex-1 text-neutral-500 text-sm font-light">
-                      search
-                    </span>
-                    <Search className="text-primary" />
-                  </div>
-                </div>
-              )}
-
-              <div className="flex gap-1 ">
-                <ButtonLink text="trade in" href="tradein" className="" />
-                <ButtonLink
-                  text="financing"
-                  href="financing"
-                  className="bg-black hover:bg-black "
-                />
-                <ButtonLink
-                  text="service center"
-                  href="service-centers"
-                  className="max-w-24 text-wrap text-center"
-                />
-              </div>
+          <div className="flex items-center justify-end gap-2 flex-1">
+            <SearchBox
+              show={showSearch}
+              onOpen={() => setShowSearch(true)}
+              onClose={() => setShowSearch(false)}
+            />
+            <div className="flex gap-2 ml-2">
+              <ButtonLink text="trade in" href="/trade-in" className="py-5" />
+              <ButtonLink
+                text="financing"
+                href="/financing"
+                className="bg-black hover:bg-neutral-800 py-5"
+              />
+              <ButtonLink
+                text="service center"
+                href="/service-centers"
+                className="py-5 max-w-28 text-wrap text-center leading-tight"
+              />
             </div>
           </div>
         </div>
+
         <div>
-          <MobiveNav />
+          <MobileNav />
         </div>
       </div>
     </div>
