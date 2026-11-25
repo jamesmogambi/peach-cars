@@ -158,12 +158,12 @@ const MobileNav = () => {
 
       <Link href="/" className="flex-shrink-0">
         <Image
-          alt="Saisa Motors"
+          alt="Peach Cars"
           priority
           quality={99}
-          height={40}
-          width={160}
-          src="/images/logos/saisa-logo-light.svg"
+          height={200}
+          width={300}
+          src="/images/logos/peach-cars-logo-transparent.svg"
           className="h-auto w-auto"
         />
       </Link>
@@ -351,11 +351,11 @@ const Header = () => {
             className="w-[180px] h-[64px] flex-none relative mx-6"
           >
             <Image
-              alt="Saisa Motors"
+              alt="Peach Cars"
               priority
               quality={99}
               fill
-              src="/images/logos/saisa-logo-light.svg"
+              src="/images/logos/peach-cars-logo-transparent.svg"
               className="object-contain"
             />
           </Link>
