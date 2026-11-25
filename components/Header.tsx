@@ -161,8 +161,8 @@ const MobileNav = () => {
           alt="Peach Cars"
           priority
           quality={99}
-          height={200}
-          width={300}
+          height={300}
+          width={450}
           src="/images/logos/peach-cars-logo-transparent.svg"
           className="h-auto w-auto"
         />
