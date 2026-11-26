@@ -6,22 +6,24 @@ import React from "react";
 import CarSpecifications from "./CarSpecifications";
 import PictureInGallery from "./PictureInGallery";
 
+interface CarData {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  price: number;
+  year: number;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+  description: string;
+  inStock: boolean;
+  images: { asset: { _id: string; url: string } } | { asset: { _id: string; url: string } }[];
+  brand: { _id: string; name: string; slug: { current: string }; logo?: { asset: { _id: string; url: string } } };
+  bodyStyle: { _id: string; name: string; slug: { current: string } };
+}
+
 interface Prop {
-  car: {
-    _id: string;
-    title: string;
-    slug: { current: string };
-    price: number;
-    year: number;
-    mileage: number;
-    fuel: string;
-    transmission: string;
-    description: string;
-    inStock: boolean;
-    images: { asset: { _id: string; url: string } } | { asset: { _id: string; url: string } }[];
-    brand: { _id: string; name: string; slug: { current: string }; logo?: { asset: { _id: string; url: string } } };
-    bodyStyle: { _id: string; name: string; slug: { current: string } };
-  };
+  car: CarData;
 }
 
 const CarDetails = ({ car }: Prop) => {

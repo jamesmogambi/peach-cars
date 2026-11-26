@@ -33,7 +33,7 @@ const page = async ({ params, searchParams }: Props) => {
   if (!car) notFound();
 
   const { brand, price, fuel } = car;
-  const similarCars = await getSimilarCars(brand.name, fuel, car._id);
+  const similarCars: Awaited<ReturnType<typeof getSimilarCars>> = await getSimilarCars(brand.name, fuel, car._id);
   return (
     <div className="min-h-screen py-10">
       <div className="flex justify-center items-center flex-col  gap-3">
@@ -61,7 +61,7 @@ const page = async ({ params, searchParams }: Props) => {
             Similar Cars
           </h2>
           <div className=" grid grid-cols-1 gap-7 lg:grid-cols-3">
-            {similarCars.map((car) => (
+            {similarCars.map((car: any) => (
               <CarItem key={car._id} car={car} />
             ))}
           </div>

@@ -38,10 +38,10 @@ import { getUser, logoutUser } from "@/actions/auth";
 import { cn } from "@/lib/utils";
 
 export const carItems = [
-  { name: "all stock", href: "all-stock" },
-  { name: "in stock", href: "in-stock" },
-  { name: "shipping", href: "shipping" },
-  { name: "new arrivals", href: "new-arrivals" },
+  { name: "all cars", href: "/cars?filter=all" },
+  { name: "in stock", href: "/cars?filter=in-stock" },
+  { name: "shipping", href: "/cars?filter=shipping" },
+  { name: "new arrivals", href: "/cars?filter=new-arrivals" },
 ];
 
 const SearchBox = ({

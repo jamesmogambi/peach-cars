@@ -14,7 +14,7 @@ Icon.Default.mergeOptions({
 });
 
 // Eldoret, Kenya coordinates
-const position = [0.5143, 35.2698];
+const position: [number, number] = [0.5143, 35.2698];
 
 export const MapWithLeaflet = () => {
   return (

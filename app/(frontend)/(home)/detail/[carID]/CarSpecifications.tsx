@@ -22,7 +22,7 @@ interface Prop {
   };
 }
 
-const CarSpecifications = ({ car }: { car: Prop }) => {
+const CarSpecifications = ({ car }: Prop) => {
   // Build specifications from available car data
   const specs = [
     { specification: `Year: ${car.year}` },
