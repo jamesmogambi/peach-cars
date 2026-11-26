@@ -22,7 +22,7 @@ export const Logo = (props: Props) => {
     <img
       alt="Peach Cars Logo"
       width={320}
-      height={213}
+      height={300}
       loading={loading}
       fetchPriority={priority}
       decoding="async"

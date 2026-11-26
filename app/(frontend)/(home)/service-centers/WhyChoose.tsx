@@ -5,10 +5,10 @@ import React from "react";
 interface Props {
   footer: string;
   values: {
+    _id: string;
     title: string;
-    icon: any;
+    icon: { asset: { _id: string; url: string } } | null;
     description: string;
-    id: string;
   }[];
 }
 const WhyChoose = ({ values, footer }: Props) => {
@@ -21,18 +21,24 @@ const WhyChoose = ({ values, footer }: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {values.map((item: any, index) => (
           <div
-            key={item.id}
+            key={item._id || index}
             className="relative flex flex-col items-center  w-full p-6"
           >
             <div className="relative w-[100px]  h-[90px] ">
-              <Image
-                alt=""
-                src={item.icon.url}
-                fill
-                className="object-center absolute"
-                priority
-                quality={98}
-              />
+              {item.icon?.asset?.url ? (
+                <Image
+                  alt=""
+                  src={item.icon.asset.url}
+                  fill
+                  className="object-center absolute"
+                  priority
+                  quality={98}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-200 rounded">
+                  <span className="text-gray-500 text-xs">{item.title}</span>
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col mt-3 items-center justify-center">
