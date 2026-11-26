@@ -8,6 +8,7 @@ import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useWishlist } from "@/lib/wishlist";
 
 interface Prop {
@@ -36,6 +37,7 @@ interface Prop {
   };
 }
 const CarItem = ({ className, car }: Prop) => {
+  const router = useRouter();
   const {
     _id,
     title,
@@ -161,7 +163,11 @@ const CarItem = ({ className, car }: Prop) => {
               className="py-0 px-4 text-[10px] hover:bg-black"
               href={`/detail/${slug.current}`}
             ></ButtonLink>
-            <MyButton className="hover:bg-black py-0" text="get a quote" />
+            <MyButton
+              className="hover:bg-black py-0"
+              text="get a quote"
+              onClick={() => router.push("/contact-us")}
+            />
           </div>
           <ButtonLink
             className="py-0 w-full bg-black hover:bg-primary"
