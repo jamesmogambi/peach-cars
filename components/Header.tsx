@@ -36,6 +36,7 @@ import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getUser, logoutUser } from "@/actions/auth";
 import { cn } from "@/lib/utils";
+import { useWishlist } from "@/lib/wishlist";
 
 export const carItems = [
   { name: "all cars", href: "/cars?filter=all" },
@@ -90,6 +91,8 @@ const MobileNav = () => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { wishlist } = useWishlist();
+  const wishlistCount = wishlist.length;
 
   useEffect(() => {
     setOpen(false);
@@ -103,7 +106,7 @@ const MobileNav = () => {
     { label: "Service Centers", href: "/service-centers" },
     { label: "Trade In", href: "/trade-in" },
     { label: "Financing", href: "/financing" },
-    { label: "Wishlist", href: "/wishlist" },
+    { label: "Wishlist", href: "/wishlist", count: wishlistCount },
   ];
 
   return (
@@ -125,13 +128,21 @@ const MobileNav = () => {
                   <Link
                     href={link.href}
                     className={cn(
-                      "block px-6 py-3.5 uppercase text-[14px] transition-colors",
+                      "flex items-center justify-between px-6 py-3.5 uppercase text-[14px] transition-colors",
                       pathname === link.href
                         ? "text-primary font-semibold"
                         : "text-neutral-700 hover:text-primary"
                     )}
                   >
-                    {link.label}
+                    <span className="flex items-center gap-2">
+                      {link.label === "Wishlist" && <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />}
+                      {link.label}
+                    </span>
+                    {link.count && link.count > 0 && (
+                      <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                        {link.count > 9 ? "9+" : link.count}
+                      </span>
+                    )}
                   </Link>
                 </li>
               ))}
@@ -183,6 +194,8 @@ const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [user, setUser] = useState<any>(null);
   const pathname = usePathname();
+  const { wishlist } = useWishlist();
+  const wishlistCount = wishlist.length;
 
   useEffect(() => {
     getUser().then(setUser);
@@ -284,12 +297,17 @@ const Header = () => {
             </div>
 
             <div className="md:flex hidden items-center gap-2">
-              <Heart className="text-primary h-4 w-4 shrink-0" />
               <Link
                 href="/wishlist"
-                className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
+                className="flex items-center gap-1 text-[13px] text-neutral-600 hover:text-primary transition-colors"
               >
+                <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />
                 Wishlist
+                {wishlistCount > 0 && (
+                  <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                    {wishlistCount > 9 ? "9+" : wishlistCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>
@@ -368,6 +386,18 @@ const Header = () => {
               onClose={() => setShowSearch(false)}
             />
             <div className="flex gap-2 ml-2">
+              <Link
+                href="/wishlist"
+                className="relative flex items-center gap-1 py-5 px-3 text-[14px] text-neutral-600 hover:text-primary transition-colors"
+              >
+                <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />
+                Wishlist
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                    {wishlistCount > 9 ? "9+" : wishlistCount}
+                  </span>
+                )}
+              </Link>
               <ButtonLink text="trade in" href="/trade-in" className="py-5" />
               <ButtonLink
                 text="financing"
