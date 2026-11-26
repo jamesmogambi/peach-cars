@@ -8,6 +8,9 @@ import {
   Phone,
   Search,
   X,
+  User,
+  Car,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -34,9 +37,10 @@ import {
 import ButtonLink from "./ButtonLink";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getUser, logoutUser } from "@/actions/auth";
 import { cn } from "@/lib/utils";
 import { useWishlist } from "@/lib/wishlist";
+import { useUser, useAuth } from "@clerk/nextjs";
+import { signOutUser } from "@/actions/clerkAuth";
 
 export const carItems = [
   { name: "all cars", href: "/cars?filter=all" },
@@ -87,16 +91,22 @@ const SearchBox = ({
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ user, isLoaded }: { user: any; isLoaded: boolean }) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
+  const { signOut } = useAuth();
 
   useEffect(() => {
     setOpen(false);
   }, [pathname, searchParams]);
+
+  const handleLogout = async () => {
+    await signOutUser();
+    signOut();
+  };
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -175,6 +185,72 @@ const MobileNav = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>
+              {user && isLoaded && (
+                <>
+                  <li className="border-b-[0.5px] border-neutral-100 px-6 py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">
+                        {user.firstName?.[0] || user.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm">{user.firstName} {user.lastName}</p>
+                        <p className="text-xs text-neutral-500">{user.emailAddresses?.[0]?.emailAddress}</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="border-b-[0.5px] border-neutral-100">
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center gap-3 px-6 py-3.5 uppercase text-[14px] text-neutral-700 hover:text-primary"
+                    >
+                      <User className="h-4 w-4" />
+                      Profile
+                    </Link>
+                  </li>
+                  <li className="border-b-[0.5px] border-neutral-100">
+                    <Link
+                      href="/reserved-cars"
+                      className="flex items-center gap-3 px-6 py-3.5 uppercase text-[14px] text-neutral-700 hover:text-primary"
+                    >
+                      <Car className="h-4 w-4" />
+                      Reserved Cars
+                    </Link>
+                  </li>
+                  <li className="border-b-[0.5px] border-neutral-100">
+                    <Link
+                      href="/wishlist"
+                      className="flex items-center gap-3 px-6 py-3.5 uppercase text-[14px] text-neutral-700 hover:text-primary"
+                    >
+                      <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />
+                      Wishlist
+                      {wishlistCount > 0 && (
+                        <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                          {wishlistCount > 9 ? "9+" : wishlistCount}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                  <li className="border-t border-neutral-100 pt-3 px-6">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 text-red-600 text-sm font-semibold"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Logout
+                    </button>
+                  </li>
+                </>
+              )}
+              {!user && isLoaded && (
+                <li className="border-t border-neutral-100 pt-3 px-6">
+                  <Link
+                    href="/login"
+                    className="block text-center text-primary font-semibold uppercase py-3"
+                  >
+                    Login / Register
+                  </Link>
+                </li>
+              )}
             </ul>
           </ScrollArea>
         </SheetContent>
@@ -205,18 +281,15 @@ const MobileNav = () => {
 
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const { user, isLoaded } = useUser();
+  const { signOut } = useAuth();
   const pathname = usePathname();
   const { wishlist } = useWishlist();
   const wishlistCount = wishlist.length;
 
-  useEffect(() => {
-    getUser().then(setUser);
-  }, []);
-
   const handleLogout = async () => {
-    await logoutUser();
-    setUser(null);
+    await signOutUser();
+    signOut();
   };
 
   const navItems = [
@@ -228,6 +301,30 @@ const Header = () => {
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  if (!isLoaded) {
+    return (
+      <div className="shadow-md bg-white">
+        <div className="pt-5 pb-3 px-4 md:px-0 w-full lg:max-w-6xl mx-auto">
+          <div className="flex justify-between w-full items-center">
+            <div className="flex gap-7">
+              <div className="flex items-center gap-2">
+                <Clock className="text-primary h-4 w-4 shrink-0" />
+                <p className="text-[13px] text-neutral-600">
+                  Office Hours : 8 am - 5 pm Daily
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 text-[13px] items-center">
+              <div className="animate-pulse">
+                <div className="h-5 w-24 bg-neutral-200 rounded" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="shadow-md bg-white">
@@ -264,17 +361,51 @@ const Header = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              {user?.user ? (
+              {user ? (
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center gap-1 cursor-pointer text-[13px] text-neutral-600 hover:text-primary transition-colors">
-                    {user?.user?.firstName} {user?.user?.lastName}
+                  <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer text-[13px] text-neutral-600 hover:text-primary transition-colors">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-semibold">
+                      {user.firstName?.[0] || user.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                    </div>
+                    <span className="hidden sm:block">
+                      {user.firstName} {user.lastName}
+                    </span>
                     <ChevronDown className="h-4 w-4" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-4 py-2 border-b">
+                      <p className="text-sm font-semibold">{user.firstName} {user.lastName}</p>
+                      <p className="text-xs text-neutral-500">{user.emailAddresses?.[0]?.emailAddress}</p>
+                    </div>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center gap-2 text-sm">
+                        <User className="h-4 w-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/reserved-cars" className="flex items-center gap-2 text-sm">
+                        <Car className="h-4 w-4" />
+                        Reserved Cars
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/wishlist" className="flex items-center gap-2 text-sm">
+                        <Heart className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.5} />
+                        Wishlist
+                        {wishlistCount > 0 && (
+                          <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                            {wishlistCount > 9 ? "9+" : wishlistCount}
+                          </span>
+                        )}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="cursor-pointer text-primary font-semibold"
+                      className="cursor-pointer text-red-600 flex items-center gap-2 text-sm"
                     >
+                      <LogOut className="h-4 w-4" />
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -429,7 +560,7 @@ const Header = () => {
         </div>
 
         <div>
-          <MobileNav />
+          <MobileNav user={user} isLoaded={isLoaded} />
         </div>
       </div>
     </div>
