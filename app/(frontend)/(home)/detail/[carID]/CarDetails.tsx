@@ -94,18 +94,13 @@ const CarDetails = ({ car }: Prop) => {
               <h2 className="text-primary text-[35px]">
                 {formatPrice(car.price.toString())}
               </h2>
-              <button
+              <Heart
                 onClick={handleWishlistToggle}
-                className="p-3 rounded-full bg-white/90 hover:bg-white transition-colors shadow-lg border border-neutral-200"
-                aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-              >
-                <Heart
-                  className="w-6 h-6 transition-colors"
-                  fill={isWishlisted ? "red" : "none"}
-                  stroke={isWishlisted ? "red" : "black"}
-                  strokeWidth={isWishlisted ? 0 : 2}
-                />
-              </button>
+                className="w-6 h-6 transition-colors cursor-pointer"
+                fill={isWishlisted ? "red" : "white"}
+                stroke="red"
+                strokeWidth={isWishlisted ? 0 : 2}
+              />
             </div>
           </div>
         </div>

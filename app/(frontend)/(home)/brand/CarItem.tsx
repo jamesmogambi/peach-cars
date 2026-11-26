@@ -107,18 +107,13 @@ const CarItem = ({ className, car }: Prop) => {
                 {year}
               </h5>
             </div>
-            <button
+            <Heart
               onClick={handleWishlistToggle}
-              className="p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-lg"
-              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-            >
-              <Heart
-                className="w-5 h-5 transition-colors"
-                fill={isWishlisted ? "red" : "none"}
-                stroke={isWishlisted ? "red" : "white"}
-                strokeWidth={isWishlisted ? 0 : 1.5}
-              />
-            </button>
+              className="w-6 h-6 transition-colors cursor-pointer"
+              fill={isWishlisted ? "red" : "white"}
+              stroke="red"
+              strokeWidth={isWishlisted ? 0 : 1.5}
+            />
           </div>
         </Link>
       </div>
