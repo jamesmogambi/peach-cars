@@ -124,18 +124,28 @@ const MobileNav = () => {
           <ScrollArea className="h-[calc(100vh-80px)]">
             <ul className="py-2">
               {navLinks.map((link) => (
-                <li key={link.href} className="border-b-[0.5px] border-neutral-100">
+                <li
+                  key={link.href}
+                  className="border-b-[0.5px] border-neutral-100"
+                >
                   <Link
                     href={link.href}
                     className={cn(
                       "flex items-center justify-between px-6 py-3.5 uppercase text-[14px] transition-colors",
                       pathname === link.href
                         ? "text-primary font-semibold"
-                        : "text-neutral-700 hover:text-primary"
+                        : "text-neutral-700 hover:text-primary",
                     )}
                   >
                     <span className="flex items-center gap-2">
-                      {link.label === "Wishlist" && <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />}
+                      {link.label === "Wishlist" && (
+                        <Heart
+                          className="h-4 w-4"
+                          fill="white"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        />
+                      )}
                       {link.label}
                     </span>
                     {link.count && link.count > 0 && (
@@ -154,7 +164,10 @@ const MobileNav = () => {
                   <DropdownMenuContent align="start" className="w-[250px]">
                     {carItems.map((item) => (
                       <DropdownMenuItem key={item.name} asChild>
-                        <Link href={item.href} className="uppercase cursor-pointer">
+                        <Link
+                          href={item.href}
+                          className="uppercase cursor-pointer"
+                        >
                           {item.name}
                         </Link>
                       </DropdownMenuItem>
@@ -301,7 +314,12 @@ const Header = () => {
                 href="/wishlist"
                 className="flex items-center gap-1 text-[13px] text-neutral-600 hover:text-primary transition-colors"
               >
-                <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />
+                <Heart
+                  className="h-4 w-4"
+                  fill="white"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                />
                 Wishlist
                 {wishlistCount > 0 && (
                   <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
@@ -325,7 +343,7 @@ const Header = () => {
                   "group relative uppercase py-[19px] px-[15px] transition-colors",
                   isActive(item.href)
                     ? "text-primary font-semibold"
-                    : "hover:text-primary"
+                    : "hover:text-primary",
                 )}
               >
                 {item.label}
@@ -334,7 +352,7 @@ const Header = () => {
                     "absolute right-[15px] left-[15px] bottom-2 h-[3px] bg-primary origin-left transition-transform duration-300",
                     isActive(item.href)
                       ? "scale-x-100"
-                      : "scale-x-0 group-hover:scale-x-100"
+                      : "scale-x-0 group-hover:scale-x-100",
                   )}
                 />
               </Link>
@@ -364,10 +382,7 @@ const Header = () => {
           </nav>
 
           {/* logo */}
-          <Link
-            href="/"
-            className="w-[180px] h-[64px] flex-none relative mx-6"
-          >
+          <Link href="/" className="w-[180px] h-[64px] flex-none relative mx-6">
             <Image
               alt="Peach Cars"
               priority
@@ -386,7 +401,7 @@ const Header = () => {
               onClose={() => setShowSearch(false)}
             />
             <div className="flex gap-2 ml-2">
-              <Link
+              {/* <Link
                 href="/wishlist"
                 className="relative flex items-center gap-1 py-5 px-3 text-[14px] text-neutral-600 hover:text-primary transition-colors"
               >
@@ -397,7 +412,7 @@ const Header = () => {
                     {wishlistCount > 9 ? "9+" : wishlistCount}
                   </span>
                 )}
-              </Link>
+              </Link> */}
               <ButtonLink text="trade in" href="/trade-in" className="py-5" />
               <ButtonLink
                 text="financing"

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import CarDetails from "../../detail/[carID]/CarDetails";
 import ButtonLink from "@/components/ButtonLink";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -13,6 +14,9 @@ type Props = {
 export async function generateMetadata({ params, searchParams }: Props) {
   const { slug } = await params;
   const car = await getCarByID(slug);
+  if (!car) {
+    return { title: "Car not found" };
+  }
   return {
     title: `Reserve | ${car.carName} | ${car.productid} `,
     description: car.carName,
@@ -21,6 +25,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
 
 const page = async ({ params }: any) => {
   const car = await getCarByID((await params).slug);
+  if (!car) notFound();
   return (
     <div className="min-h-screen py-12">
       <div>

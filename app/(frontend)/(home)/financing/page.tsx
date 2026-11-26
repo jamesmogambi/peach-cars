@@ -29,13 +29,13 @@ const page = () => {
             <Link href="/contact-us">
               <MyButton
                 text="Apply for Financing"
-                className="bg-white text-primary hover:bg-gray-100 text-lg px-10 py-4"
+                className="bg-white text-primary hover:bg-gray-100 text-lg px-10 py-6"
               />
             </Link>
             <Link href="/cars-for-sale-in-kenya">
               <MyButton
                 text="Browse Cars"
-                className="border-2 border-white text-white hover:bg-primary/20 text-lg px-10 py-4"
+                className="border-2 border-white text-white hover:bg-primary/20 text-lg px-10 py-6"
               />
             </Link>
           </div>
@@ -199,7 +199,7 @@ const page = () => {
               </div>
               <MyButton
                 text="Calculate Monthly Payment"
-                className="w-full text-lg px-10 py-4"
+                className="w-full text-lg px-10 py-6"
               />
             </div>
 
@@ -295,7 +295,7 @@ const page = () => {
             <Link href="/contact-us">
               <MyButton
                 text="Start Financing Application"
-                className="bg-white text-primary hover:bg-gray-100 text-lg px-10 py-4"
+                className="bg-white text-primary hover:bg-gray-100 text-lg px-10 py-6"
               />
             </Link>
           </div>
