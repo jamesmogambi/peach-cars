@@ -1,12 +1,25 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+const MapWithLeaflet = dynamic(
+  () =>
+    import("./MapWithLeaflet").then((mod) => mod.MapWithLeaflet),
+  { ssr: false }
+);
 
-const position = [51.505, -0.09];
-
-// TODO: Intergrate local map
 const CurrentLocationMap = () => {
-  return <div>Current Location Map...</div>;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div style={{ height: "300px", width: "100%" }}>Loading map...</div>;
+  }
+
+  return <MapWithLeaflet />;
 };
 
 export default CurrentLocationMap;
