@@ -1,11 +1,11 @@
-import { getAllBrands, getFeaturedModels } from "@/actions/car";
+import { getFeaturedCars } from "@/actions/featuredCars";
 import React from "react";
 import RenderCars from "./RenderCars";
 
 const FeaturedCars = async () => {
-  const brands = await getAllBrands();
+  const cars = await getFeaturedCars();
 
-  console.log("featured models", brands);
+  console.log("featured cars", cars);
   return (
     <div className="w-full ">
       <div className="w-full  px-4 py-10 min-h-screen lg:max-w-6xl mx-auto ">
@@ -19,10 +19,10 @@ const FeaturedCars = async () => {
           </h3>
         </div>
 
-        {/* // loop brands */}
-        <div className="flex flex-col mt-8 justify-center items-center ">
-          {brands.map((item, index) => (
-            <RenderCars key={item.id} brand={item.brand} />
+        {/* // loop cars */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+          {cars.map((item) => (
+            <RenderCars key={item._id} car={item} />
           ))}
         </div>
 
