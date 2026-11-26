@@ -22,21 +22,22 @@ const BrandsSection = async () => {
       </div>
 
       {/* // loop brands */}
-      <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-6">
+      <div className="flex flex-wrap justify-center  gap-8">
         {brands.length > 0 ? (
-          brands.slice(0, 5).map((brand: any) => {
+          brands.map((brand: any) => {
             const logoUrl = brand.logo?.asset?.url;
             return (
-              <Link key={brand._id} href={`/brand/${brand.slug?.current || brand.name}`}>
-                <div
-                  className="rounded-lg p-6 hover:shadow-lg transition aspect-square flex items-center justify-center bg-white"
-                >
+              <Link
+                key={brand._id}
+                href={`/brand/${brand.slug?.current || brand.name}`}
+              >
+                <div className="rounded-lg p-6 hover:shadow-lg transition aspect-square flex items-center justify-center bg-white w-[150px]">
                   {logoUrl ? (
                     <Image
                       alt={brand.name}
                       src={logoUrl}
-                      width={120}
-                      height={120}
+                      width={140}
+                      height={140}
                       quality={98}
                       className="object-contain"
                     />
