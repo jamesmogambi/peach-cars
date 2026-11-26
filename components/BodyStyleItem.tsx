@@ -11,26 +11,34 @@ interface Prop {
     slug?: { current: string };
     image?: { asset?: { url: string } };
   };
+  isSelected?: boolean;
+  onClick?: () => void;
 }
-const BodyStyleItem = ({ className = "", item }: Prop) => {
+const BodyStyleItem = ({ className = "", item, isSelected = false, onClick }: Prop) => {
   const { _id, name, image } = item;
   const imageUrl = image?.asset?.url;
 
   return (
     <div
       className={cn(
-        "flex flex-col w-full gap-4 py-6 md:pb-12 items-center",
+        "flex flex-col w-full gap-4 py-6 md:pb-12 items-center cursor-pointer transition-all duration-200",
+        isSelected ? "scale-105" : "",
         className,
       )}
+      onClick={onClick}
     >
-      <div className="flex flex-wrap lg:flex-nowrap justify-center items-center  space-x-2">
+      <div className="flex flex-wrap lg:flex-nowrap justify-center items-center space-x-2">
         <Checkbox
-          className="bg-white h-5 w-5 data-[state=checked]:bg-primary "
+          className={cn(
+            "bg-white h-5 w-5 data-[state=checked]:bg-primary transition-colors",
+            isSelected && "data-[state=checked]:bg-primary"
+          )}
           id={_id}
+          checked={isSelected}
         />
         <label
           htmlFor={_id}
-          className="uppercase overflow-clip text-nowrap  tracking-wide text-[12px] font-semibold"
+          className="uppercase overflow-clip text-nowrap tracking-wide text-[12px] font-semibold"
         >
           {name}
         </label>
