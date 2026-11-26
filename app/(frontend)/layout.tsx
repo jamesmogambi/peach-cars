@@ -27,6 +27,12 @@ const paytone = Paytone_One({
 export const metadata: Metadata = {
   title: "Peach Cars ",
   description: "Dealers in New and Clean second hand motor vehicles",
+  icons: {
+    icon: "/images/logos/peach-cars-icon-512.png",
+    shortcut: "/favicon.ico",
+    apple: "/images/logos/peach-cars-icon-512.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout(props: { children: React.ReactNode }) {
