@@ -1,5 +1,4 @@
 "use client";
-import { Car } from "@/payload-types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -11,16 +10,17 @@ const CarPreviewCarousel = ({
   car,
   className,
 }: {
-  car: Car;
+  car: {
+    images: { asset: { _id: string; url: string } } | { asset: { _id: string; url: string } }[];
+  };
   className?: string;
 }) => {
-  console.log("cacarousel", car);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 8000 }),
   ]);
 
-  const { gallery } = car;
+  const imageArray = Array.isArray(car.images) ? car.images : car.images ? [car.images] : [];
 
   const handleNext = () => {
     if (emblaApi) {
@@ -37,18 +37,20 @@ const CarPreviewCarousel = ({
     <div className={cn("relative h-[500px] ", className)}>
       {/* First Layer with Background Image */}
       <div className="absolute inset-0 bg-cover bg-center">
-        <div className=" overflow-hidden h-full" ref={emblaRef}>
+        <div className="overflow-hidden h-full" ref={emblaRef}>
           <div className="flex h-full flex-1">
-            {gallery?.map((item: any) => (
-              <div key={item.id} className="flex-none relative  w-full min-w-0">
-                <Image
-                  alt=""
-                  src={item?.url}
-                  fill
-                  priority
-                  quality={100}
-                  className="object-cover absolute"
-                />
+            {imageArray.map((item, idx) => (
+              <div key={idx} className="flex-none relative  w-full min-w-0">
+                {item.asset?.url && (
+                  <Image
+                    alt=""
+                    src={item.asset.url}
+                    fill
+                    priority
+                    quality={100}
+                    className="object-cover"
+                  />
+                )}
               </div>
             ))}
           </div>

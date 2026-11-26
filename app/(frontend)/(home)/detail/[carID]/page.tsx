@@ -1,4 +1,4 @@
-import { getCarByID, getSimilarCars } from "@/actions/car";
+import { getCarBySlug, getSimilarCars } from "@/actions/carDetail";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -6,21 +6,6 @@ import CarDetails from "./CarDetails";
 import CarItem from "../../brand/CarItem";
 import { Metadata, ResolvingMetadata } from "next";
 import { formatText } from "@/lib/utils";
-
-// type Props = {
-//   params: { carID: string };
-//   searchParams: { page?: number; limit?: number };
-//   children: React.ReactNode;
-// };
-
-// export async function generateMetadata({ params, searchParams }: Props) {
-//   const { carID } = params;
-//   const car = await getCarByID(carID);
-//   return {
-//     title: `${car.carName} for sale in Eldoret | ${car.fuel} | ${car.productid}`,
-//     // description:'',
-//   };
-// }
 
 type Props = {
   params: Promise<{ carID: string }>;
@@ -33,22 +18,22 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const carID = (await params).carID;
 
-  const car = await getCarByID(carID);
+  const car = await getCarBySlug(carID);
   if (!car) {
     return { title: "Car not found" };
   }
   return {
-    title: `${car.carName} for sale in Eldoret | ${car.fuel} | ${car.productid}`,
+    title: `${car.title} for sale in Eldoret | ${car.fuel} | ${car.slug.current}`,
     // description:'',
   };
 }
 const page = async ({ params, searchParams }: Props) => {
   const { carID } = await params;
-  const car = await getCarByID(carID);
+  const car = await getCarBySlug(carID);
   if (!car) notFound();
 
-  const { brand, price, engine } = car;
-  const similarCars = await getSimilarCars({ brand: brand, engine });
+  const { brand, price, fuel } = car;
+  const similarCars = await getSimilarCars(brand.name, fuel, car._id);
   return (
     <div className="min-h-screen py-10">
       <div className="flex justify-center items-center flex-col  gap-3">
@@ -62,11 +47,11 @@ const page = async ({ params, searchParams }: Props) => {
           </Link>
           <span className="text-[#6c757d]">/</span>
           <Link href="#" className="text-[#6c757d]">
-            {car?.carName}
+            {car?.title}
           </Link>
         </div>
         <h2 className="uppercase font-semibold text-[35.2px]">
-          {car?.carName}
+          {car?.title}
         </h2>
       </div>
       <CarDetails car={car} />
@@ -77,7 +62,7 @@ const page = async ({ params, searchParams }: Props) => {
           </h2>
           <div className=" grid grid-cols-1 gap-7 lg:grid-cols-3">
             {similarCars.map((car) => (
-              <CarItem key={car.productid} car={car} />
+              <CarItem key={car._id} car={car} />
             ))}
           </div>
         </div>

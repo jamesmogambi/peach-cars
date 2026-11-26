@@ -36,7 +36,10 @@ const HomeCarousel = ({ carousels }: { carousels: Prop[] }) => {
         <div className="overflow-hidden h-full" ref={emblaRef}>
           <div className="flex h-full flex-1">
             {carousels?.map((item: any) => (
-              <div key={item.id} className="flex-none relative w-full min-w-0 h-full">
+              <div
+                key={item.id}
+                className="flex-none relative w-full min-w-0 h-full"
+              >
                 <Image
                   alt=""
                   src={item.image?.url}
@@ -47,7 +50,7 @@ const HomeCarousel = ({ carousels }: { carousels: Prop[] }) => {
                 />
                 <div className="absolute inset-0 flex items-center justify-center px-4">
                   <div className="bg-black/40 backdrop-blur-sm rounded-xl px-8 py-6 max-w-4xl w-full text-center">
-                    <p className="lg:text-[56px] text-[36px] leading-tight text-white font-paytone font-semibold tracking-wide drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">
+                    <p className="lg:text-[56px] text-[36px] leading-tight text-primary font-paytone font-semibold tracking-wide drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">
                       {item?.title}
                     </p>
                   </div>
