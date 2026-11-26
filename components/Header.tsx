@@ -247,7 +247,7 @@ const Header = () => {
                 href="tel:0746962447"
                 className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
               >
-                0746962447
+                0743129621
               </Link>
             </div>
           </div>
