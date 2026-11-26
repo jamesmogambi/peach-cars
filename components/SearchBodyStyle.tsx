@@ -1,4 +1,4 @@
-import { getAllBodyStyles } from "@/actions/car";
+import { getAllBodyStyles } from "@/actions/bodyStyle";
 import React from "react";
 import BodyStyleItem from "./BodyStyleItem";
 import MyButton from "./MyButton";
@@ -16,17 +16,17 @@ const SearchBodyStyle = async () => {
             Get your dream car from Saisa Motors in Eldoret
           </h2>
           <h3 className="text-[20px] text-center">
-            Shop Cars for Sale in Kenya by Brands
+            Shop Cars for Sale in Kenya by Body Style
           </h3>
         </div>
 
-        {/* // loop brands */}
-        <div className="flex flex-wrap mt-8 justify-center items-center ">
-          {styles.map((item, index) => (
+        {/* // loop body styles */}
+        <div className="flex flex-wrap mt-8 justify-center items-center gap-4">
+          {styles.map((item: any) => (
             <BodyStyleItem
               item={item}
-              key={item.id}
-              className=" w-1/2 lg:w-1/5 p-4  text-center"
+              key={item._id}
+              className="w-full sm:w-1/2 lg:w-1/5 p-4 text-center"
             />
           ))}
         </div>
