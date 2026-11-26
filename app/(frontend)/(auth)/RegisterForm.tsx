@@ -10,9 +10,8 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { loginUser, registerUser } from "@/actions/auth";
-import { redirect } from "next/navigation";
-// import { registerUser } from "@/actions/auth";
+import { signUpUser } from "@/actions/clerkAuth";
+import { useRouter } from "next/navigation";
 
 const schema = z
   .object({
@@ -44,6 +43,7 @@ type FormData = z.infer<typeof schema>;
 
 const RegisterForm = () => {
   const [error, setError] = useState("");
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -64,7 +64,7 @@ const RegisterForm = () => {
     });
 
     console.log("form data", data);
-    const result = await registerUser(formData);
+    const result = await signUpUser(formData);
 
     if (result?.error) {
       setError(result.error);
@@ -73,8 +73,9 @@ const RegisterForm = () => {
 
     if (result?.success) {
       alert("Account created successfully");
-      console.log("succeful registaration");
-      redirect("/");
+      console.log("successful registration");
+      router.push("/");
+      router.refresh();
     }
   };
   return (

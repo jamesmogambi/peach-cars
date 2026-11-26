@@ -6,9 +6,9 @@ import { z } from "zod";
 import FormInput from "@/components/FormInput";
 import MyButton from "@/components/MyButton";
 import Link from "next/link";
-import { loginUser } from "@/actions/auth";
+import { signInUser } from "@/actions/clerkAuth";
 import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z
@@ -21,6 +21,7 @@ type FormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
   const [error, setError] = useState("");
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -35,12 +36,13 @@ const LoginForm = () => {
     formData.append("email", data.email);
     formData.append("password", data.password);
 
-    const res = await loginUser(formData);
+    const res = await signInUser(formData);
     if (res?.error) setError(res.error);
 
     if (res?.success) {
       alert("Log in successful");
-      redirect("/");
+      router.push("/");
+      router.refresh();
     }
   };
 

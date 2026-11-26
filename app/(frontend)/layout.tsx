@@ -3,6 +3,7 @@ import "./styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Nunito, Paytone_One } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import WhatsappButton from "@/components/WhatsappButton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -40,17 +41,19 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
 
   return (
-    <html lang="en">
-      <head>
-        <meta
-          name="google-site-verification"
-          content="UDYwMzZV8NxsZS6vSz0EIMJTaBMdNNBKpiBlC5dv7_s"
-        />
-      </head>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <meta
+            name="google-site-verification"
+            content="UDYwMzZV8NxsZS6vSz0EIMJTaBMdNNBKpiBlC5dv7_s"
+          />
+        </head>
 
-      <body className={` ${nunito.className} ${paytone.variable} antialiased`}>
-        <WishlistWrapper>{children}</WishlistWrapper>
-      </body>
-    </html>
+        <body className={` ${nunito.className} ${paytone.variable} antialiased`}>
+          <WishlistWrapper>{children}</WishlistWrapper>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

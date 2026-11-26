@@ -1,15 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export function middleware(req: NextRequest) {
-  const token = req.cookies.get("payload-token");
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/api/webhook/clerk",
+  "/cars-for-sale-in-kenya(.*)",
+  "/brand(.*)",
+  "/detail(.*)",
+  "/financing",
+  "/trade-in",
+  "/contact-us",
+  "/about-us",
+  "/blog(.*)",
+  "/service-centers",
+  "/wishlist",
+  "/checkout",
+  "/reserve(.*)",
+]);
 
-  if (!token && req.nextUrl.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", req.url));
+export default clerkMiddleware(async (auth, request) => {
+  if (!isPublicRoute(request)) {
+    await auth.protect();
   }
-
-  return NextResponse.next();
-}
+});
 
 export const config = {
-  matcher: ["/dashboard/:path*"], // Protect dashboard routes
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

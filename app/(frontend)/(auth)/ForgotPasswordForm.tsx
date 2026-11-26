@@ -6,9 +6,8 @@ import { z } from "zod";
 import FormInput from "@/components/FormInput";
 import MyButton from "@/components/MyButton";
 import Link from "next/link";
-import { loginUser } from "@/actions/auth";
+import { forgotPassword } from "@/actions/clerkAuth";
 import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
 
 const schema = z.object({
   email: z
@@ -20,6 +19,7 @@ type FormData = z.infer<typeof schema>;
 
 const ForgotPasswordForm = () => {
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const {
     register,
     handleSubmit,
@@ -30,16 +30,14 @@ const ForgotPasswordForm = () => {
 
   const onSubmit = async (data: FormData) => {
     setError("");
-    const formData = new FormData();
-    formData.append("email", data.email);
+    setSuccess("");
 
-    // const res = await loginUser(formData);
-    // if (res?.error) setError(res.error);
+    const res = await forgotPassword(data.email);
+    if (res?.error) setError(res.error);
 
-    // if (res?.success) {
-    //   alert("Log in successful");
-    //   redirect("/");
-    // }
+    if (res?.success) {
+      setSuccess("Password reset email sent. Check your inbox.");
+    }
   };
 
   return (
@@ -60,6 +58,11 @@ const ForgotPasswordForm = () => {
             {error && (
               <div className=" text-sm  font-light mb-6  text-center bg-primary text-white p-5 opacity-30">
                 <p>{error}</p>
+              </div>
+            )}
+            {success && (
+              <div className=" text-sm  font-light mb-6  text-center bg-green-600 text-white p-5 opacity-30">
+                <p>{success}</p>
               </div>
             )}
             {Object.keys(errors).length > 0 && (
