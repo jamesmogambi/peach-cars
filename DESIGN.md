@@ -1,7 +1,7 @@
 # Design & Theme
 
 ## Overview
-- App: **Saisa Motors Limited** — dealers in new and clean second-hand motor vehicles.
+- App: **Peach Cars** — dealers in new and clean second-hand motor vehicles.
 - Stack: Next.js 15 (App Router) + Tailwind CSS 3.4 + shadcn/ui (new-york style) + Radix UI.
 - Frontend CSS: `app/(frontend)/globals.css`, `app/(frontend)/styles.css`.
 

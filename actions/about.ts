@@ -4,7 +4,7 @@ import { payload } from "@/lib/payload";
 
 const defaultAboutUs = {
   "about-us":
-    "Saisa Motors Limited is a premier dealer in new and clean second-hand motor vehicles in Kenya. With years of experience in the automotive industry, we have built a reputation for offering quality vehicles, honest advice, and flexible financing options. Our team is committed to helping you find the right car for your needs and budget, ensuring a smooth and enjoyable buying experience from start to finish.",
+    "Peach Cars is a premier dealer in new and clean second-hand motor vehicles in Kenya. With years of experience in the automotive industry, we have built a reputation for offering quality vehicles, honest advice, and flexible financing options. Our team is committed to helping you find the right car for your needs and budget, ensuring a smooth and enjoyable buying experience from start to finish.",
   "core-values": [
     { id: "1", name: "Integrity", icon: { url: "/images/heart-shape.png" } },
     { id: "2", name: "Quality Vehicles", icon: { url: "/images/trade-In-car.png" } },

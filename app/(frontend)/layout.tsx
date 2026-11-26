@@ -25,7 +25,7 @@ const paytone = Paytone_One({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "Saisa Motors Limited ",
+  title: "Peach Cars ",
   description: "Dealers in New and Clean second hand motor vehicles",
 };
 

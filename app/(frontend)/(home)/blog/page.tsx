@@ -7,7 +7,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: "Blog ",
   description:
-    "Latest news, tips, and insights from Saisa Motors — your trusted dealer in new and clean second-hand motor vehicles in Kenya.",
+    "Latest news, tips, and insights from Peach Cars — your trusted dealer in new and clean second-hand motor vehicles in Kenya.",
 };
 
 const posts = [
@@ -76,7 +76,7 @@ const page = () => {
 
       <div className="max-w-6xl mx-auto px-4 lg:px-0 py-10">
         <p className="text-center text-[20px] text-[#6c757d] mb-10">
-          News, tips, and insights from the Saisa Motors team
+          News, tips, and insights from the Peach Cars team
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">

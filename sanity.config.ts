@@ -4,8 +4,8 @@ import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./sanity/schemas";
 
 export default defineConfig({
-  name: "saisa-motors",
-  title: "Saisa Motors",
+  name: "peach-cars",
+  title: "Peach Cars",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "7eoipnzt",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [structureTool(), visionTool()],

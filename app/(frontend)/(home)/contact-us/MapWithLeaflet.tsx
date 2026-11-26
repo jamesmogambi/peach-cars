@@ -30,7 +30,7 @@ export const MapWithLeaflet = () => {
       />
       <Marker position={position}>
         <Popup>
-          <strong>Saisa Motors Limited</strong><br />
+          <strong>Peach Cars</strong><br />
           Eldoret, Kenya
         </Popup>
       </Marker>

@@ -190,7 +190,7 @@ const RegisterForm = () => {
             <div className="text-[13px] space-y-5 mt-8">
               <div>
                 <p>
-                  I agree to receive marketing emails from Saisa Motors Limited
+                  I agree to receive marketing emails from Peach Cars
                 </p>
                 <RadioGroup
                   onValueChange={(value) => {

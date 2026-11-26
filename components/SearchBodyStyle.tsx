@@ -13,7 +13,7 @@ const SearchBodyStyle = async () => {
             shop cars by body style
           </h1>
           <h2 className="uppercase text-[32px] text-center font-normal">
-            Get your dream car from Saisa Motors in Eldoret
+            Get your dream car from Peach Cars in Eldoret
           </h2>
           <h3 className="text-[20px] text-center">
             Shop Cars for Sale in Kenya by Body Style
