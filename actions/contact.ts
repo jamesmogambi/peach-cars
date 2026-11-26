@@ -6,7 +6,7 @@ const defaultContact = {
   title: "Get In Touch With Us",
   location: "Eldoret, Kenya",
   phone: "0746962447",
-  email: "info@saisamotors.co.ke",
+  email: "info@peachcars.co.ke",
   coverImage: { url: "/images/contact-us.jpg" },
 };
 

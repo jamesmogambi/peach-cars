@@ -80,7 +80,7 @@ const Footer = () => {
                   </li>
                   <li className="flex gap-3 items-center">
                     <Mail className="text-primary h-4 w-4" />{" "}
-                    info@saisamotors.co.ke
+                    info@peachcars.co.ke
                   </li>
                   <li></li>
                 </ul>

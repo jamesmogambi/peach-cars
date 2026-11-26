@@ -230,10 +230,10 @@ const Header = () => {
             <div className="md:flex hidden gap-2 items-center">
               <Mail className="text-primary h-4 w-4 shrink-0" />
               <Link
-                href="mailto:info@saisamotors.co.ke"
+                href="mailto:info@peachcars.co.ke"
                 className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
               >
-                info@saisamotors.co.ke
+                info@peachcars.co.ke
               </Link>
             </div>
 
