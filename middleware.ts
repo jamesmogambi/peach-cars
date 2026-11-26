@@ -15,6 +15,9 @@ const isPublicRoute = createRouteMatcher([
   "/wishlist",
   "/checkout",
   "/reserve(.*)",
+  "/login",
+  "/register",
+  "/forgot-password",
 ]);
 
 export default clerkMiddleware(async (auth, request) => {

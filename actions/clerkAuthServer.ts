@@ -18,6 +18,21 @@ export async function signUpUserServer(formData: FormData) {
   }
 
   try {
+    const clerkPayload: any = {
+      email_address: [email],
+      password,
+      first_name: firstName,
+      last_name: lastName,
+      public_metadata: {
+        ...rest,
+        phone,
+      },
+    };
+
+    // Only add phone_number if it's provided and we want to try
+    // Note: Phone auth must be enabled in Clerk Dashboard
+    // For now, we'll store phone in public_metadata instead
+
     const res = await fetch(
       `https://api.clerk.com/v1/users`,
       {
@@ -26,16 +41,7 @@ export async function signUpUserServer(formData: FormData) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
         },
-        body: JSON.stringify({
-          email_address: [email],
-          password,
-          first_name: firstName,
-          last_name: lastName,
-          phone_number: [phone],
-          public_metadata: {
-            ...rest,
-          },
-        }),
+        body: JSON.stringify(clerkPayload),
       }
     );
 
@@ -52,7 +58,7 @@ export async function signUpUserServer(formData: FormData) {
       email: user.email_addresses[0]?.email_address,
       firstName: user.first_name,
       lastName: user.last_name,
-      phone: user.phone_numbers[0]?.phone_number,
+      phone: phone,
       publicMetadata: rest,
       createdAt: new Date().toISOString(),
     });
@@ -142,8 +148,10 @@ export async function updateUserProfileServer(formData: FormData) {
         body: JSON.stringify({
           first_name: data.firstName,
           last_name: data.lastName,
-          phone_number: data.phone,
-          public_metadata: data,
+          public_metadata: {
+            ...data,
+            phone: data.phone,
+          },
         }),
       }
     );

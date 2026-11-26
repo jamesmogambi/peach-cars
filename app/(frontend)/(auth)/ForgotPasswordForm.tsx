@@ -94,6 +94,20 @@ const ForgotPasswordForm = () => {
                 )}
                 type="submit"
               />
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/login"
+                  className="text-primary text-[14px]"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="text-primary text-[14px]"
+                >
+                  Register
+                </Link>
+              </div>
             </div>
           </div>
         </div>

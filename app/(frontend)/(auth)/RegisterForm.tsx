@@ -126,14 +126,15 @@ const RegisterForm = () => {
                 <FormInput
                   label="Password"
                   name="password"
+                  type="password"
                   register={register}
-                  // type="password"
-                  // isMust
+                  isMust
                   className="w-full lg:w-1/2"
                 />
                 <FormInput
                   label="Confirm Password"
                   name="confirmPassword"
+                  type="password"
                   register={register}
                   isMust
                   className="w-full lg:w-1/2"
@@ -190,9 +191,7 @@ const RegisterForm = () => {
             </div>
             <div className="text-[13px] space-y-5 mt-8">
               <div>
-                <p>
-                  I agree to receive marketing emails from Peach Cars
-                </p>
+                <p>I agree to receive marketing emails from Peach Cars</p>
                 <RadioGroup
                   onValueChange={(value) => {
                     if (value === "agree") {
@@ -236,7 +235,7 @@ const RegisterForm = () => {
                   htmlFor="terms"
                   className="text-[12px] font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  I have read and agree to MotorHub'{" "}
+                  I have read and agree to Peach auto'{" "}
                   <span className="text-primary">
                     Privacy Policy & Terms Of Use.
                   </span>
@@ -249,10 +248,16 @@ const RegisterForm = () => {
                 text="register"
                 className={cn(
                   "px-9 py-2 hover:bg-black",
-                  isSubmitting && "border-4 border-red-300"
+                  isSubmitting && "border-4 border-red-300",
                 )}
                 type="submit"
               />
+            </div>
+            <div className="text-center text-[14px]">
+              Already have an account?{" "}
+              <Link href="/login" className="text-primary font-semibold">
+                Sign In
+              </Link>
             </div>
             {/* // errors */}
             {error && (

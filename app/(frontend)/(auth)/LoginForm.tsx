@@ -82,6 +82,7 @@ const LoginForm = () => {
               <FormInput
                 label="Password"
                 name="password"
+                type="password"
                 register={register}
                 // error={errors.name}
               />
@@ -92,17 +93,25 @@ const LoginForm = () => {
                 text="login"
                 className={cn(
                   "px-9 py-2 hover:bg-black",
-                  isSubmitting && "border-4 border-red-300"
+                  isSubmitting && "border-4 border-red-300",
                 )}
                 type="submit"
               />
 
-              <Link
-                href={"/forgot-password"}
-                className="text-primary text-[14px]"
-              >
-                Forgot Password
-              </Link>
+              <div className="flex items-center gap-4">
+                <Link
+                  href={"/forgot-password"}
+                  className="text-primary text-[14px]"
+                >
+                  Forgot Password
+                </Link>
+                {/* <Link
+                  href={"/register"}
+                  className="text-primary text-[14px]"
+                >
+                  Register
+                </Link> */}
+              </div>
             </div>
           </div>
         </div>
