@@ -30,27 +30,27 @@ const HomeCarousel = ({ carousels }: { carousels: Prop[] }) => {
     }
   };
   return (
-    <div className="relative h-[50vh]  lg:h-[75vh]  mb-8">
+    <div className="relative h-[50vh] lg:h-[75vh] mb-8">
       {/* First Layer with Background Image */}
       <div className="absolute inset-0 bg-cover bg-center">
-        {/* The first layer is just a background image */}
-
-        <div className=" overflow-hidden h-full" ref={emblaRef}>
+        <div className="overflow-hidden h-full" ref={emblaRef}>
           <div className="flex h-full flex-1">
             {carousels?.map((item: any) => (
-              <div key={item.id} className="flex-none relative  w-full min-w-0">
+              <div key={item.id} className="flex-none relative w-full min-w-0 h-full">
                 <Image
                   alt=""
                   src={item.image?.url}
                   fill
                   priority
                   quality={100}
-                  className="object-cover absolute"
+                  className="object-cover"
                 />
-                <div className=" absolute top-10 px-4 border-white w-full ">
-                  <p className="lg:text-[50px] leading-tight text-[35px] max-w-5xl mx-auto text-[#c81a24] font-paytone   text-center  font-semibold">
-                    {item?.title}
-                  </p>
+                <div className="absolute inset-0 flex items-center justify-center px-4">
+                  <div className="bg-black/40 backdrop-blur-sm rounded-xl px-8 py-6 max-w-4xl w-full text-center">
+                    <p className="lg:text-[56px] text-[36px] leading-tight text-white font-paytone font-semibold tracking-wide drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">
+                      {item?.title}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
