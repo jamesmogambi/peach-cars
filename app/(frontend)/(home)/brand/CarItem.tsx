@@ -20,8 +20,15 @@ interface Prop {
     transmission: string;
     description: string;
     inStock: boolean;
-    images: { asset: { _id: string; url: string } }[];
-    brand: { _id: string; name: string; slug: { current: string }; logo?: { asset: { _id: string; url: string } } };
+    images:
+      | { asset: { _id: string; url: string } }
+      | { asset: { _id: string; url: string } }[];
+    brand: {
+      _id: string;
+      name: string;
+      slug: { current: string };
+      logo?: { asset: { _id: string; url: string } };
+    };
     bodyStyle: { _id: string; name: string; slug: { current: string } };
   };
 }
@@ -41,13 +48,15 @@ const CarItem = ({ className, car }: Prop) => {
   } = car;
 
   const carPrice = formatPrice(price.toString());
-  const imageUrl = images?.[0]?.asset?.url;
+  const imageUrl = Array.isArray(images)
+    ? images?.[0]?.asset?.url
+    : images?.asset?.url;
 
   return (
     <div
       className={cn(
         "rounded-xl overflow-hidden shadow-lg hover:shadow-xl w-full",
-        className
+        className,
       )}
     >
       {/* image section */}
@@ -55,12 +64,13 @@ const CarItem = ({ className, car }: Prop) => {
         <div className="absolute inset-0">
           {imageUrl ? (
             <Image
-              className="object-cover"
+              className="object-cover w-full h-full"
               alt={title}
               src={imageUrl}
               priority
               quality={99}
-              fill
+              width={400}
+              height={300}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -100,12 +110,12 @@ const CarItem = ({ className, car }: Prop) => {
 
       {/* // bottom section */}
       <div className="mt-6 p-[16px] text-[#7D7D7D]">
-        <div className="space-y-2">
+        <div className="space-y-2 ">
           <p className="text-[14px] uppercase ">
             make <span className="font-semibold text-black">{brand?.name}</span>
           </p>
 
-          <h5 className="font-semibold text-[20px] text-black">{title}</h5>
+          <h5 className="font-semibold  text-[20px]  text-black">{title}</h5>
           <p className="text-[14px] uppercase ">
             year <span className="font-semibold text-black">{year}</span>
           </p>
@@ -127,7 +137,10 @@ const CarItem = ({ className, car }: Prop) => {
             Fuel <span className="font-semibold text-black">{fuel}</span>
           </p>
           <p className="text-[14px] ">
-            Mileage <span className="font-semibold text-black">{mileage.toLocaleString()} km</span>
+            Mileage{" "}
+            <span className="font-semibold text-black">
+              {mileage.toLocaleString()} km
+            </span>
           </p>
         </div>
 
