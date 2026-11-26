@@ -1,3 +1,5 @@
+"use client";
+
 import ButtonLink from "@/components/ButtonLink";
 import MyButton from "@/components/MyButton";
 import { Separator } from "@/components/ui/separator";
@@ -5,7 +7,8 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { useWishlist } from "@/lib/wishlist";
 
 interface Prop {
   className?: string;
@@ -52,6 +55,20 @@ const CarItem = ({ className, car }: Prop) => {
     ? images?.[0]?.asset?.url
     : images?.asset?.url;
 
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  React.useEffect(() => {
+    setIsWishlisted(isInWishlist(_id));
+  }, [_id, isInWishlist]);
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(car);
+    setIsWishlisted(!isWishlisted);
+  };
+
   return (
     <div
       className={cn(
@@ -90,20 +107,18 @@ const CarItem = ({ className, car }: Prop) => {
                 {year}
               </h5>
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="white"
-              stroke="red"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-heart shadow-lg"
+            <button
+              onClick={handleWishlistToggle}
+              className="p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-lg"
+              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
             >
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-            </svg>
+              <Heart
+                className="w-5 h-5 transition-colors"
+                fill={isWishlisted ? "red" : "none"}
+                stroke={isWishlisted ? "red" : "white"}
+                strokeWidth={isWishlisted ? 0 : 1.5}
+              />
+            </button>
           </div>
         </Link>
       </div>

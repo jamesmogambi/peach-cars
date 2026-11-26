@@ -1,3 +1,5 @@
+"use client";
+
 import ButtonLink from "@/components/ButtonLink";
 import MyButton from "@/components/MyButton";
 import { formatPrice } from "@/lib/utils";
@@ -5,6 +7,8 @@ import Image from "next/image";
 import React from "react";
 import CarSpecifications from "./CarSpecifications";
 import PictureInGallery from "./PictureInGallery";
+import { useWishlist } from "@/lib/wishlist";
+import { Heart } from "lucide-react";
 
 interface CarData {
   _id: string;
@@ -17,6 +21,7 @@ interface CarData {
   transmission: string;
   description: string;
   inStock: boolean;
+  isNewArrival?: boolean;
   images: { asset: { _id: string; url: string } } | { asset: { _id: string; url: string } }[];
   brand: { _id: string; name: string; slug: { current: string }; logo?: { asset: { _id: string; url: string } } };
   bodyStyle: { _id: string; name: string; slug: { current: string } };
@@ -29,6 +34,20 @@ interface Prop {
 const CarDetails = ({ car }: Prop) => {
   const { images, title, slug, brand, bodyStyle } = car;
   const imageUrl = Array.isArray(images) ? images?.[0]?.asset?.url : images?.asset?.url;
+
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const [isWishlisted, setIsWishlisted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsWishlisted(isInWishlist(car._id));
+  }, [car._id, isInWishlist]);
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(car);
+    setIsWishlisted(!isWishlisted);
+  };
 
   return (
     <div className="lg:max-w-6xl p-4 mx-auto w-full">
@@ -58,22 +77,36 @@ const CarDetails = ({ car }: Prop) => {
               <p className=" text-[#7d7d7d]">Transmission</p>
               <strong className="">{car.transmission}</strong>
             </div>
-            <div className="flex text-[19px] mb-[16px]  items-center justify-between  ">
+            <div className="flex text=[19px] mb=[16px]  items-center justify-between  ">
               <p className=" text-[#7d7d7d]">Fuel</p>
               <strong className="">{car.fuel}</strong>
             </div>
-            <div className="flex text-[19px] mb-[16px]  items-center justify-between  ">
+            <div className="flex text=[19px] mb=[16px]  items-center justify-between  ">
               <p className=" text-[#7d7d7d]">Mileage</p>
               <strong className="">{car.mileage.toLocaleString()} km</strong>
             </div>
-            <div className="flex text-[19px] mb-[16px]  items-center justify-between  ">
+            <div className="flex text=[19px] mb=[16px]  items-center justify-between  ">
               <p className=" text-[#7d7d7d]">Body Style</p>
               <strong className="">{bodyStyle?.name}</strong>
             </div>
 
-            <h2 className="text-primary mb-[15px] text-[35px]">
-              {formatPrice(car.price.toString())}
-            </h2>
+            <div className="flex justify-between items-center mb-[15px]">
+              <h2 className="text-primary text-[35px]">
+                {formatPrice(car.price.toString())}
+              </h2>
+              <button
+                onClick={handleWishlistToggle}
+                className="p-3 rounded-full bg-white/90 hover:bg-white transition-colors shadow-lg border border-neutral-200"
+                aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+              >
+                <Heart
+                  className="w-6 h-6 transition-colors"
+                  fill={isWishlisted ? "red" : "none"}
+                  stroke={isWishlisted ? "red" : "black"}
+                  strokeWidth={isWishlisted ? 0 : 2}
+                />
+              </button>
+            </div>
           </div>
         </div>
         <div className="basis-full lg:flex-1  ">

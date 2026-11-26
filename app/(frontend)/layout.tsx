@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/next";
 import TradeEnquirySection from "@/components/TradeEnquirySection";
 import ServiceHighlights from "@/components/ServiceHighlights";
 import ScheduleServiceSection from "@/components/ScheduleServiceSection";
+import WishlistWrapper from "@/components/WishlistWrapper";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -48,7 +49,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       </head>
 
       <body className={` ${nunito.className} ${paytone.variable} antialiased`}>
-        {children}
+        <WishlistWrapper>{children}</WishlistWrapper>
       </body>
     </html>
   );
