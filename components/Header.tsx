@@ -535,7 +535,7 @@ const Header = () => {
             ))}
             <HoverCard>
               <HoverCardTrigger asChild>
-                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 font-semibold">
+                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 ">
                   Cars <ChevronDown className="h-4 w-4 ml-1" />
                   <span className="absolute right-[15px] left-[15px] bottom-2 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
                 </span>
