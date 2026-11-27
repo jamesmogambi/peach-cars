@@ -1,6 +1,9 @@
-import { Input } from "@/components/ui/input"; // If using ShadCN, otherwise use a regular input
+"use client";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FieldError } from "react-hook-form";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface FormInputProps {
   label: string;
@@ -29,6 +32,9 @@ export default function FormInput({
 
   ...rest
 }: FormInputProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const isPassword = type === "password";
+
   return (
     <div className={cn("", className)}>
       <label
@@ -44,15 +50,28 @@ export default function FormInput({
           *
         </span>
       </label>
-      <Input
-        className={cn(
-          "w-full rounded-none  focus-visible:ring-0 border-0  border-b  underline-offset-4  shadow-none text-black p-2",
-          inputClass
+      <div className="relative">
+        <Input
+          className={cn(
+            "w-full rounded-none  focus-visible:ring-0 border-0  border-b  underline-offset-4  shadow-none text-black p-2",
+            isPassword && "pr-10",
+            inputClass
+          )}
+          type={isPassword ? (showPassword ? "text" : "password") : type}
+          {...register(name)}
+          placeholder={placeholder}
+        />
+        {isPassword && (
+          <button
+            type="button"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
         )}
-        type={type}
-        {...register(name)}
-        placeholder={placeholder}
-      />
+      </div>
       {error && <p className="text-red-500 text-sm">{error.message}</p>}
     </div>
   );
