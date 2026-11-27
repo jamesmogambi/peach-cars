@@ -60,23 +60,35 @@ const SearchBox = ({
 }) => {
   if (show) {
     return (
-      <div className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white">
+      <form action="/cars" method="GET" className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white">
         <input
+          name="search"
           autoFocus
           placeholder="Search..."
           className="w-36 text-neutral-800 border-0 outline-none text-sm px-3 py-2"
           onKeyDown={(e) => {
-            if (e.key === "Escape") onClose();
+            if (e.key === "Escape") {
+              e.preventDefault();
+              onClose();
+            }
           }}
         />
         <button
+          type="submit"
+          className="pr-2 text-neutral-400 hover:text-neutral-600"
+          aria-label="Search"
+        >
+          <Search className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
           onClick={onClose}
           className="pr-2 text-neutral-400 hover:text-neutral-600"
           aria-label="Close search"
         >
           <X className="h-4 w-4" />
         </button>
-      </div>
+      </form>
     );
   }
   return (

@@ -7,9 +7,10 @@ export const getAllCars = async (options: {
   bodyStyle?: string;
   filter?: string;
   limit?: number;
+  search?: string;
 } = {}) => {
   try {
-    const { brand, bodyStyle, filter = "all", limit = 50 } = options;
+    const { brand, bodyStyle, filter = "all", limit = 50, search } = options;
     
     // Convert URL brand format (e.g., "mercedes-benz") to Sanity format (e.g., "Mercedes Benz")
     const sanityBrand = brand 
@@ -34,6 +35,10 @@ export const getAllCars = async (options: {
       query += ` && isNewArrival == true`;
     }
     
+    if (search) {
+      query += ` && (title match $search || brand->name match $search || description match $search)`;
+    }
+    
     query += `] | order(_createdAt desc)[0...${limit}] {
       _id,
       title,
@@ -53,7 +58,11 @@ export const getAllCars = async (options: {
     }`;
     
     const cars = await Promise.race([
-      sanityClient.fetch(query, { brand: sanityBrand?.toLowerCase(), bodyStyle: bodyStyle?.toLowerCase() }),
+      sanityClient.fetch(query, { 
+        brand: sanityBrand?.toLowerCase(), 
+        bodyStyle: bodyStyle?.toLowerCase(),
+        search: search ? `*${search}*` : undefined 
+      }),
       new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 15000))
     ]);
     
