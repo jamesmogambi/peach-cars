@@ -1,5 +1,4 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { sanityClient } from "@/lib/sanity";
 
 export async function signUpUserServer(formData: FormData) {
   const data = Object.fromEntries(formData.entries());
@@ -51,17 +50,6 @@ export async function signUpUserServer(formData: FormData) {
     }
 
     const user = await res.json();
-
-    await sanityClient.create({
-      _type: "user",
-      clerkId: user.id,
-      email: user.email_addresses[0]?.email_address,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      phone: phone,
-      publicMetadata: rest,
-      createdAt: new Date().toISOString(),
-    });
 
     return { success: true, user };
   } catch (error) {
