@@ -273,8 +273,8 @@ const MobileNav = ({ user, isLoaded }: { user: any; isLoaded: boolean }) => {
           alt="Peach Cars"
           priority
           quality={99}
-          height={300}
-          width={450}
+          height={320}
+          width={480}
           src="/images/logos/peach-cars-logo-transparent.svg"
           className="h-auto w-auto"
         />
@@ -525,7 +525,7 @@ const Header = () => {
           </nav>
 
           {/* logo */}
-          <Link href="/" className="w-[180px] h-[64px] flex-none relative mx-6">
+          <Link href="/" className="w-[220px] h-[80px] flex-none relative mx-6">
             <Image
               alt="Peach Cars"
               priority
