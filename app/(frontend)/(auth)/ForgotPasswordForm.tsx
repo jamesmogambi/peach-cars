@@ -90,21 +90,15 @@ const ForgotPasswordForm = () => {
                 text="submit"
                 className={cn(
                   "px-9 py-2 hover:bg-black",
-                  isSubmitting && "border-4 border-red-300"
+                  isSubmitting && "border-4 border-red-300",
                 )}
                 type="submit"
               />
               <div className="flex items-center gap-4">
-                <Link
-                  href="/login"
-                  className="text-primary text-[14px]"
-                >
+                <Link href="/login" className="text-primary text-[14px]">
                   Sign In
                 </Link>
-                <Link
-                  href="/register"
-                  className="text-primary text-[14px]"
-                >
+                <Link href="/login" className="text-primary text-[14px]">
                   Register
                 </Link>
               </div>

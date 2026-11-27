@@ -149,17 +149,6 @@ export async function updateUserProfileServer(formData: FormData) {
       return { error: errorData.errors?.[0]?.long_message || "Update failed" };
     }
 
-    await sanityClient
-      .patch({ query: `*[_type == "user" && clerkId == $clerkId][0]`, params: { clerkId: userId } })
-      .set({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phone: data.phone,
-        publicMetadata: data,
-        updatedAt: new Date().toISOString(),
-      })
-      .commit();
-
     return { success: true };
   } catch (error) {
     console.error("Error updating user:", error);

@@ -5,6 +5,7 @@ import Link from "next/link";
 import CarDetails from "../../detail/[carID]/CarDetails";
 import ButtonLink from "@/components/ButtonLink";
 import { notFound } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -23,8 +24,31 @@ export async function generateMetadata({ params, searchParams }: Props) {
   };
 }
 
+const ReserveButton = async ({ carSlug }: { carSlug: string }) => {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    return (
+      <ButtonLink
+        href={`/login?redirect=/reserve/${carSlug}`}
+        className="bg-primary hover:bg-primary/90 py-7 w-full lg:w-2/3 mx-auto my-10 text-lg"
+        text="Sign in to Reserve"
+      />
+    );
+  }
+  
+  return (
+    <ButtonLink
+      href={`/checkout?car=${carSlug}`}
+      className="bg-black hover:bg-black hover:opacity-80 py-7 w-full lg:w-2/3 mx-auto my-10 text-lg"
+      text="reserve this car"
+    />
+  );
+};
+
 const page = async ({ params }: any) => {
-  const car = await getCarByID((await params).slug);
+  const { slug } = await params;
+  const car = await getCarByID(slug);
   if (!car) notFound();
   return (
     <div className="min-h-screen py-12">
@@ -48,11 +72,7 @@ const page = async ({ params }: any) => {
           </h2>
         </div>
         <div className="flex justify-center items-center">
-          <ButtonLink
-            href="/checkout"
-            className="bg-black hover:bg-black hover:opacity-80 py-7 w-full lg:w-2/3 mx-auto my-10 text-lg "
-            text="reserve this car"
-          />
+          <ReserveButton carSlug={slug} />
         </div>
 
         <CarDetails car={car} />

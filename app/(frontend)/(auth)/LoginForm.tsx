@@ -43,14 +43,17 @@ const LoginForm = () => {
         redirectUrl: "/",
       });
 
-      if (res.status === "complete") {
+      if (!res.error) {
         router.push("/");
         router.refresh();
       } else {
         setError("Invalid credentials. Please try again.");
       }
     } catch (err: any) {
-      setError(err.errors?.[0]?.longMessage || "Something went wrong. Please try again.");
+      setError(
+        err.errors?.[0]?.longMessage ||
+          "Something went wrong. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -80,11 +83,7 @@ const LoginForm = () => {
             )}
 
             <div className="space-y-5">
-              <FormInput
-                label="Email"
-                name="email"
-                register={register}
-              />
+              <FormInput label="Email" name="email" register={register} />
               <FormInput
                 label="Password"
                 name="password"
@@ -98,19 +97,22 @@ const LoginForm = () => {
                 text={isLoading ? "Signing in..." : "login"}
                 className={cn(
                   "px-9 py-2 hover:bg-black",
-                  isSubmitting && "border-4 border-red-300"
+                  isSubmitting && "border-4 border-red-300",
                 )}
                 type="submit"
                 disabled={isLoading}
               />
 
               <div className="flex items-center gap-4">
-                <Link href="/forgot-password" className="text-primary text-[14px]">
+                <Link
+                  href="/forgot-password"
+                  className="text-primary text-[14px]"
+                >
                   Forgot Password
                 </Link>
-                <Link href="/register" className="text-primary text-[14px]">
+                {/* <Link href="/register" className="text-primary text-[14px]">
                   Register
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
