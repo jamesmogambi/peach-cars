@@ -63,13 +63,13 @@ const SearchBox = ({
       <form
         action="/cars"
         method="GET"
-        className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white"
+        className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white w-full lg:w-auto"
       >
         <input
           name="search"
           autoFocus
           placeholder="Search..."
-          className="w-36 text-neutral-800 border-0 outline-none text-sm px-3 py-2"
+          className="w-36 lg:w-48 text-neutral-800 border-0 outline-none text-sm px-3 py-2"
           onKeyDown={(e) => {
             if (e.key === "Escape") {
               e.preventDefault();
@@ -101,7 +101,9 @@ const SearchBox = ({
       className="flex items-center gap-1 text-neutral-500 hover:text-primary transition-colors"
       aria-label="Open search"
     >
-      <span className="uppercase text-sm font-light">search</span>
+      <span className="uppercase text-sm font-light hidden sm:inline">
+        search
+      </span>
       <Search className="h-4 w-4" />
     </button>
   );
@@ -288,8 +290,8 @@ const MobileNav = ({ user, isLoaded }: { user: any; isLoaded: boolean }) => {
           alt="Peach Cars"
           priority
           quality={99}
-          height={320}
-          width={480}
+          height={160}
+          width={240}
           src="/images/logos/peach-cars-logo-transparent.svg"
           className="h-auto w-auto"
         />
@@ -357,15 +359,16 @@ const Header = () => {
     <div className="shadow-md bg-white">
       <div className="pt-5 pb-3 px-4 md:px-0 w-full lg:max-w-6xl mx-auto">
         {/* layer 1 — contact bar */}
-        <div className="flex justify-between w-full items-center">
-          <div className="flex gap-7">
+        <div className="hidden lg:flex justify-between items-center">
+          {/* left - contact info */}
+          <div className="flex items-center gap-7">
             <div className="flex items-center gap-2">
               <Clock className="text-primary h-4 w-4 shrink-0" />
-              <p className="text-[13px] text-neutral-500 ">
+              <p className="text-[13px] text-neutral-500">
                 Office Hours : 8 am - 5 pm Daily
               </p>
             </div>
-            <div className="md:flex items-center gap-2 hidden">
+            <div className="flex items-center gap-2">
               <Phone className="text-primary h-4 w-4 shrink-0" />
               <Link
                 href="tel:0746962447"
@@ -376,8 +379,12 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 text-[13px] items-center">
-            <div className="md:flex hidden gap-2 items-center">
+          {/* center - empty spacer for logo alignment */}
+          <div className="w-[220px] flex-none relative mx-6" />
+
+          {/* right - user actions */}
+          <div className="flex items-center justify-end gap-4 flex-1">
+            <div className="flex items-center gap-2">
               <Mail className="text-primary h-4 w-4 shrink-0" />
               <Link
                 href="mailto:info@peachcars.co.ke"
@@ -487,7 +494,7 @@ const Header = () => {
               )}
             </div>
 
-            <div className="md:flex hidden items-center gap-2">
+            <div className="flex items-center gap-2">
               <Link
                 href="/wishlist"
                 className="flex items-center gap-1 text-[13px] text-neutral-600 hover:text-primary transition-colors"
@@ -509,6 +516,140 @@ const Header = () => {
           </div>
         </div>
 
+        {/* Mobile contact bar */}
+        <div className="lg:hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
+            <div className="flex items-center gap-2">
+              <Clock className="text-primary h-4 w-4 shrink-0" />
+              <p className="text-[13px] text-neutral-500 hidden sm:block">
+                Office Hours : 8 am - 5 pm Daily
+              </p>
+              <p className="text-[13px] text-neutral-500 sm:hidden">
+                8am-5pm Daily
+              </p>
+            </div>
+            <div className="hidden sm:flex items-center gap-2">
+              <Phone className="text-primary h-4 w-4 shrink-0" />
+              <Link
+                href="tel:0746962447"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors "
+              >
+                0743129621
+              </Link>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto mt-3">
+            <div className="hidden sm:flex gap-2 items-center">
+              <Mail className="text-primary h-4 w-4 shrink-0" />
+              <Link
+                href="mailto:info@peachcars.co.ke"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors   "
+              >
+                info@peachcars.co.ke
+              </Link>
+            </div>
+            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer text-[13px] text-neutral-600 hover:text-primary transition-colors">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-semibold">
+                      {user.firstName?.[0] ||
+                        user.emailAddresses?.[0]?.emailAddress?.[0] ||
+                        "U"}
+                    </div>
+                    <span className="hidden sm:block">
+                      {user.firstName} {user.lastName}
+                    </span>
+                    <ChevronDown className="h-4 w-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-4 py-2 border-b">
+                      <p className="text-sm font-semibold">
+                        {user.firstName} {user.lastName}
+                      </p>
+                      <p className="text-xs text-neutral-500">
+                        {user.emailAddresses?.[0]?.emailAddress}
+                      </p>
+                    </div>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center gap-2 text-sm"
+                      >
+                        <User className="h-4 w-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/reserved-cars"
+                        className="flex items-center gap-2 text-sm"
+                      >
+                        <Car className="h-4 w-4" />
+                        Reserved Cars
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/wishlist"
+                        className="flex items-center gap-2 text-sm"
+                      >
+                        <Heart
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        />
+                        Wishlist
+                        {wishlistCount > 0 && (
+                          <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                            {wishlistCount > 9 ? "9+" : wishlistCount}
+                          </span>
+                        )}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer text-red-600 flex items-center gap-2 text-sm"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="lg:hidden text-neutral-600 hover:text-primary transition-colors"
+                    aria-label="Login"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="hidden lg:block text-neutral-600 hover:text-primary transition-colors"
+                  >
+                    Login/Register
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* layer 2 — main nav */}
         <div className="hidden lg:flex justify-between items-center ">
           {/* menu */}
@@ -518,7 +659,7 @@ const Header = () => {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "group relative uppercase py-[19px] px-[15px] transition-colors whitespace-nowrap flex-shrink-0 ",
+                  "group relative uppercase py-[19px] px-[15px] transition-colors whitespace-nowrap flex-shrink-0",
                   isActive(item.href) ? "text-primary" : "hover:text-primary",
                 )}
               >
@@ -535,7 +676,7 @@ const Header = () => {
             ))}
             <HoverCard>
               <HoverCardTrigger asChild>
-                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 ">
+                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors whitespace-nowrap flex-shrink-0">
                   Cars <ChevronDown className="h-4 w-4 ml-1" />
                   <span className="absolute right-[15px] left-[15px] bottom-2 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
                 </span>
@@ -577,18 +718,6 @@ const Header = () => {
               onClose={() => setShowSearch(false)}
             />
             <div className="flex gap-2 ml-2">
-              {/* <Link
-                href="/wishlist"
-                className="relative flex items-center gap-1 py-5 px-3 text-[14px] text-neutral-600 hover:text-primary transition-colors"
-              >
-                <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />
-                Wishlist
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
-                    {wishlistCount > 9 ? "9+" : wishlistCount}
-                  </span>
-                )}
-              </Link> */}
               <ButtonLink text="trade in" href="/trade-in" className="py-5" />
               <ButtonLink
                 text="financing"
@@ -602,6 +731,25 @@ const Header = () => {
               />
             </div>
           </div>
+        </div>
+
+        {/* Mobile action buttons */}
+        <div className="lg:hidden mt-4 flex flex-col gap-2">
+          <ButtonLink
+            text="trade in"
+            href="/trade-in"
+            className="py-4 w-full"
+          />
+          <ButtonLink
+            text="financing"
+            href="/financing"
+            className="bg-black hover:bg-neutral-800 py-4 w-full"
+          />
+          <ButtonLink
+            text="service center"
+            href="/service-centers"
+            className="py-4 w-full text-center"
+          />
         </div>
 
         <div>
