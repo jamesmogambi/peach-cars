@@ -60,7 +60,11 @@ const SearchBox = ({
 }) => {
   if (show) {
     return (
-      <form action="/cars" method="GET" className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white">
+      <form
+        action="/cars"
+        method="GET"
+        className="flex items-center overflow-hidden rounded-md border border-neutral-200 bg-white"
+      >
         <input
           name="search"
           autoFocus
@@ -202,11 +206,17 @@ const MobileNav = ({ user, isLoaded }: { user: any; isLoaded: boolean }) => {
                   <li className="border-b-[0.5px] border-neutral-100 px-6 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">
-                        {user.firstName?.[0] || user.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                        {user.firstName?.[0] ||
+                          user.emailAddresses?.[0]?.emailAddress?.[0] ||
+                          "U"}
                       </div>
                       <div>
-                        <p className="font-semibold text-sm">{user.firstName} {user.lastName}</p>
-                        <p className="text-xs text-neutral-500">{user.emailAddresses?.[0]?.emailAddress}</p>
+                        <p className="font-semibold text-sm">
+                          {user.firstName} {user.lastName}
+                        </p>
+                        <p className="text-xs text-neutral-500">
+                          {user.emailAddresses?.[0]?.emailAddress}
+                        </p>
                       </div>
                     </div>
                   </li>
@@ -233,7 +243,12 @@ const MobileNav = ({ user, isLoaded }: { user: any; isLoaded: boolean }) => {
                       href="/wishlist"
                       className="flex items-center gap-3 px-6 py-3.5 uppercase text-[14px] text-neutral-700 hover:text-primary"
                     >
-                      <Heart className="h-4 w-4" fill="white" stroke="currentColor" strokeWidth={1.5} />
+                      <Heart
+                        className="h-4 w-4"
+                        fill="white"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                      />
                       Wishlist
                       {wishlistCount > 0 && (
                         <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
@@ -322,7 +337,7 @@ const Header = () => {
             <div className="flex gap-7">
               <div className="flex items-center gap-2">
                 <Clock className="text-primary h-4 w-4 shrink-0" />
-                <p className="text-[13px] text-neutral-600">
+                <p className="text-[13px] text-neutral-600 font-semibold">
                   Office Hours : 8 am - 5 pm Daily
                 </p>
               </div>
@@ -346,7 +361,7 @@ const Header = () => {
           <div className="flex gap-7">
             <div className="flex items-center gap-2">
               <Clock className="text-primary h-4 w-4 shrink-0" />
-              <p className="text-[13px] text-neutral-600">
+              <p className="text-[13px] text-neutral-500 ">
                 Office Hours : 8 am - 5 pm Daily
               </p>
             </div>
@@ -354,7 +369,7 @@ const Header = () => {
               <Phone className="text-primary h-4 w-4 shrink-0" />
               <Link
                 href="tel:0746962447"
-                className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors "
               >
                 0743129621
               </Link>
@@ -366,7 +381,7 @@ const Header = () => {
               <Mail className="text-primary h-4 w-4 shrink-0" />
               <Link
                 href="mailto:info@peachcars.co.ke"
-                className="text-[13px] text-neutral-600 hover:text-primary transition-colors"
+                className="text-[13px] text-neutral-600 hover:text-primary transition-colors   "
               >
                 info@peachcars.co.ke
               </Link>
@@ -377,7 +392,9 @@ const Header = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer text-[13px] text-neutral-600 hover:text-primary transition-colors">
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-semibold">
-                      {user.firstName?.[0] || user.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                      {user.firstName?.[0] ||
+                        user.emailAddresses?.[0]?.emailAddress?.[0] ||
+                        "U"}
                     </div>
                     <span className="hidden sm:block">
                       {user.firstName} {user.lastName}
@@ -386,24 +403,42 @@ const Header = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
                     <div className="px-4 py-2 border-b">
-                      <p className="text-sm font-semibold">{user.firstName} {user.lastName}</p>
-                      <p className="text-xs text-neutral-500">{user.emailAddresses?.[0]?.emailAddress}</p>
+                      <p className="text-sm font-semibold">
+                        {user.firstName} {user.lastName}
+                      </p>
+                      <p className="text-xs text-neutral-500">
+                        {user.emailAddresses?.[0]?.emailAddress}
+                      </p>
                     </div>
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="flex items-center gap-2 text-sm">
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center gap-2 text-sm"
+                      >
                         <User className="h-4 w-4" />
                         Profile
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/reserved-cars" className="flex items-center gap-2 text-sm">
+                      <Link
+                        href="/reserved-cars"
+                        className="flex items-center gap-2 text-sm"
+                      >
                         <Car className="h-4 w-4" />
                         Reserved Cars
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/wishlist" className="flex items-center gap-2 text-sm">
-                        <Heart className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.5} />
+                      <Link
+                        href="/wishlist"
+                        className="flex items-center gap-2 text-sm"
+                      >
+                        <Heart
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        />
                         Wishlist
                         {wishlistCount > 0 && (
                           <span className="bg-primary text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
@@ -475,18 +510,16 @@ const Header = () => {
         </div>
 
         {/* layer 2 — main nav */}
-        <div className="hidden lg:flex justify-between items-center mt-4">
+        <div className="hidden lg:flex justify-between items-center ">
           {/* menu */}
-          <nav className="flex items-center text-[14px] text-[#323232] flex-1">
+          <nav className="flex items-center text-[14px] text-[#323232] flex-1 flex-nowrap overflow-hidden">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "group relative uppercase py-[19px] px-[15px] transition-colors",
-                  isActive(item.href)
-                    ? "text-primary font-semibold"
-                    : "hover:text-primary",
+                  "group relative uppercase py-[19px] px-[15px] transition-colors whitespace-nowrap flex-shrink-0 ",
+                  isActive(item.href) ? "text-primary" : "hover:text-primary",
                 )}
               >
                 {item.label}
@@ -502,7 +535,7 @@ const Header = () => {
             ))}
             <HoverCard>
               <HoverCardTrigger asChild>
-                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors">
+                <span className="group relative uppercase flex items-center py-[19px] px-[15px] cursor-pointer hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 font-semibold">
                   Cars <ChevronDown className="h-4 w-4 ml-1" />
                   <span className="absolute right-[15px] left-[15px] bottom-2 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
                 </span>
